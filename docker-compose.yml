@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # 后端服务
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: gc-cad-backend
+    ports:
+      - "8000:8000"
+      - "9890:9890"
+      - "9899:9899"
+    volumes:
+      # 映射HuggingFace模型存储目录
+      - ./data/huggingface:/opt/data/private/liuteng/huggingface
+      # 映射数据库存储目录
+      - ./data/sqlite_database:/app/src/data/sqlite_database
+      # 映射文件系统存储目录
+      - ./data/file_system:/app/src/data/file_system
+      - ./data/file_system_mapping:/app/src/data/file_system_mapping
+      # 映射临时数据目录
+      - ./data/tmp:/app/src/data/tmp
+      # 映射日志目录
+      - ./data/logs:/app/src/logs
+      # 映射配置文件（可选，如果需要外部修改配置）
+      - ./src/conf:/app/src/conf
+    environment:
+      - PYTHONPATH=/app/src
+      - HF_HOME=/opt/data/private/liuteng/huggingface
+      - HF_ENDPOINT=https://hf-mirror.com
+    working_dir: /app/src
+    command: python -m uvicorn server.start:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - gc-cad-network
+    restart: unless-stopped
+
+  # 前端服务
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: gc-cad-frontend
+    ports:
+      - "3123:3000"
+    depends_on:
+      - backend
+    networks:
+      - gc-cad-network
+    restart: unless-stopped
+
+networks:
+  gc-cad-network:
+    driver: bridge
+
+volumes:
+  huggingface_data:
+  sqlite_data:
+  file_system_data:
+  tmp_data:
+  logs_data: 

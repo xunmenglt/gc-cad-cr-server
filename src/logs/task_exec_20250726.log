@@ -1,0 +1,282 @@
+2025-07-26 15:12:13 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 15:39:22 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 19:29:22 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 19:36:54 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 19:36:54 - server.task_exec.tasks - INFO - 启动任务进程: task_7cc64ab5a6914af99b8e21a7bfbc692e
+2025-07-26 19:36:54 - server.task_exec.tasks - INFO - 项目路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/file_system/中心区N1区学校项目
+2025-07-26 19:36:54 - server.task_exec.tasks - INFO - 模型名称: qwen2.5-7b-instruct
+2025-07-26 19:36:54 - server.task_exec.tasks - INFO - 输出目录: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results
+2025-07-26 19:36:54 - server.task_exec.tasks - INFO - 任务参数: {'project_path': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/file_system/中心区N1区学校项目', 'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'agent_model_name': 'qwen2.5-7b-instruct', 'output_dir': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results'}
+2025-07-26 19:36:54 - server.task_exec.tasks - INFO - 任务进程已启动，PID: 88798
+2025-07-26 19:36:54 - server.task_exec.tasks - INFO - 开始监听任务消息队列...
+2025-07-26 19:36:56 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 19:36:56 - server.task_exec.tasks - INFO - 工作进程开始执行任务: task_7cc64ab5a6914af99b8e21a7bfbc692e
+2025-07-26 19:36:56 - server.task_exec.tasks - INFO - 接收到的参数: {'project_path': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/file_system/中心区N1区学校项目', 'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'agent_model_name': 'qwen2.5-7b-instruct', 'output_dir': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results'}
+2025-07-26 19:36:56 - server.task_exec.tasks - INFO - 工作目录: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/file_system/中心区N1区学校项目
+2025-07-26 19:36:56 - server.task_exec.tasks - INFO - 使用模型: qwen2.5-7b-instruct
+2025-07-26 19:36:56 - server.task_exec.tasks - INFO - 输出目录: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results
+2025-07-26 19:36:56 - server.task_exec.tasks - INFO - 输出目录已创建/确认: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results
+2025-07-26 19:36:56 - server.task_exec.tasks - INFO - 开始执行CAD识别任务...
+2025-07-26 19:36:56 - server.task_exec.tasks - INFO - 已发送开始消息到主进程
+2025-07-26 19:36:56 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'START', 'data': {'project_path': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/file_system/中心区N1区学校项目', 'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'agent_model_name': 'qwen2.5-7b-instruct', 'output_dir': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results'}}
+2025-07-26 19:36:56 - server.task_exec.tasks - INFO - 收到开始消息: {'project_path': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/file_system/中心区N1区学校项目', 'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'agent_model_name': 'qwen2.5-7b-instruct', 'output_dir': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results'}
+2025-07-26 19:36:56 - server.task_exec.tasks - INFO - 任务状态已更新为运行中
+2025-07-26 19:37:07 - extraction.identifier - INFO - tqdm 版本: 4.67.1
+2025-07-26 19:37:07 - extraction.identifier - WARNING - tqdm 版本不支持 callbacks 参数，使用兼容模式
+2025-07-26 19:37:07 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 2}}
+2025-07-26 19:37:07 - server.task_exec.tasks - INFO - 收到进度消息: 2%
+2025-07-26 19:37:07 - server.task_exec.tasks - INFO - 任务进度已更新: 2%
+2025-07-26 19:37:08 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:09 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:09 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 5}}
+2025-07-26 19:37:09 - server.task_exec.tasks - INFO - 收到进度消息: 5%
+2025-07-26 19:37:09 - server.task_exec.tasks - INFO - 任务进度已更新: 5%
+2025-07-26 19:37:11 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:12 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:12 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 7}}
+2025-07-26 19:37:12 - server.task_exec.tasks - INFO - 收到进度消息: 7%
+2025-07-26 19:37:12 - server.task_exec.tasks - INFO - 任务进度已更新: 7%
+2025-07-26 19:37:13 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:14 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:15 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:15 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 10}}
+2025-07-26 19:37:15 - server.task_exec.tasks - INFO - 收到进度消息: 10%
+2025-07-26 19:37:15 - server.task_exec.tasks - INFO - 任务进度已更新: 10%
+2025-07-26 19:37:15 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 12}}
+2025-07-26 19:37:15 - server.task_exec.tasks - INFO - 收到进度消息: 12%
+2025-07-26 19:37:15 - server.task_exec.tasks - INFO - 任务进度已更新: 12%
+2025-07-26 19:37:16 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:17 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:17 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 15}}
+2025-07-26 19:37:17 - server.task_exec.tasks - INFO - 收到进度消息: 15%
+2025-07-26 19:37:17 - server.task_exec.tasks - INFO - 任务进度已更新: 15%
+2025-07-26 19:37:18 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:20 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:21 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:22 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:23 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:24 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:24 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:25 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:26 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:27 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:28 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:30 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:31 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:32 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:33 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:34 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:35 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:36 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:37 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:39 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:39 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:41 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:42 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:43 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:44 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:44 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 17}}
+2025-07-26 19:37:44 - server.task_exec.tasks - INFO - 收到进度消息: 17%
+2025-07-26 19:37:44 - server.task_exec.tasks - INFO - 任务进度已更新: 17%
+2025-07-26 19:37:44 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 20}}
+2025-07-26 19:37:44 - server.task_exec.tasks - INFO - 收到进度消息: 20%
+2025-07-26 19:37:44 - server.task_exec.tasks - INFO - 任务进度已更新: 20%
+2025-07-26 19:37:44 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 22}}
+2025-07-26 19:37:44 - server.task_exec.tasks - INFO - 收到进度消息: 22%
+2025-07-26 19:37:44 - server.task_exec.tasks - INFO - 任务进度已更新: 22%
+2025-07-26 19:37:45 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:46 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:46 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 25}}
+2025-07-26 19:37:46 - server.task_exec.tasks - INFO - 收到进度消息: 25%
+2025-07-26 19:37:46 - server.task_exec.tasks - INFO - 任务进度已更新: 25%
+2025-07-26 19:37:48 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:49 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:49 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 27}}
+2025-07-26 19:37:49 - server.task_exec.tasks - INFO - 收到进度消息: 27%
+2025-07-26 19:37:49 - server.task_exec.tasks - INFO - 任务进度已更新: 27%
+2025-07-26 19:37:51 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:52 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:52 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 30}}
+2025-07-26 19:37:52 - server.task_exec.tasks - INFO - 收到进度消息: 30%
+2025-07-26 19:37:52 - server.task_exec.tasks - INFO - 任务进度已更新: 30%
+2025-07-26 19:37:52 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 32}}
+2025-07-26 19:37:52 - server.task_exec.tasks - INFO - 收到进度消息: 32%
+2025-07-26 19:37:52 - server.task_exec.tasks - INFO - 任务进度已更新: 32%
+2025-07-26 19:37:52 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 35}}
+2025-07-26 19:37:52 - server.task_exec.tasks - INFO - 收到进度消息: 35%
+2025-07-26 19:37:52 - server.task_exec.tasks - INFO - 任务进度已更新: 35%
+2025-07-26 19:37:53 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:54 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:54 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 37}}
+2025-07-26 19:37:54 - server.task_exec.tasks - INFO - 收到进度消息: 37%
+2025-07-26 19:37:54 - server.task_exec.tasks - INFO - 任务进度已更新: 37%
+2025-07-26 19:37:55 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:55 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:37:55 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 40}}
+2025-07-26 19:37:55 - server.task_exec.tasks - INFO - 收到进度消息: 40%
+2025-07-26 19:37:55 - server.task_exec.tasks - INFO - 任务进度已更新: 40%
+2025-07-26 19:37:55 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 42}}
+2025-07-26 19:37:55 - server.task_exec.tasks - INFO - 收到进度消息: 42%
+2025-07-26 19:37:55 - server.task_exec.tasks - INFO - 任务进度已更新: 42%
+2025-07-26 19:38:03 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:04 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:04 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 45}}
+2025-07-26 19:38:04 - server.task_exec.tasks - INFO - 收到进度消息: 45%
+2025-07-26 19:38:04 - server.task_exec.tasks - INFO - 任务进度已更新: 45%
+2025-07-26 19:38:05 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:07 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:08 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:08 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 47}}
+2025-07-26 19:38:08 - server.task_exec.tasks - INFO - 收到进度消息: 47%
+2025-07-26 19:38:08 - server.task_exec.tasks - INFO - 任务进度已更新: 47%
+2025-07-26 19:38:08 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 50}}
+2025-07-26 19:38:08 - server.task_exec.tasks - INFO - 收到进度消息: 50%
+2025-07-26 19:38:08 - server.task_exec.tasks - INFO - 任务进度已更新: 50%
+2025-07-26 19:38:10 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:12 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:12 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 52}}
+2025-07-26 19:38:12 - server.task_exec.tasks - INFO - 收到进度消息: 52%
+2025-07-26 19:38:12 - server.task_exec.tasks - INFO - 任务进度已更新: 52%
+2025-07-26 19:38:12 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2025-07-26 19:38:13 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:13 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 55}}
+2025-07-26 19:38:13 - server.task_exec.tasks - INFO - 收到进度消息: 55%
+2025-07-26 19:38:13 - server.task_exec.tasks - INFO - 任务进度已更新: 55%
+2025-07-26 19:38:13 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 57}}
+2025-07-26 19:38:13 - server.task_exec.tasks - INFO - 收到进度消息: 57%
+2025-07-26 19:38:13 - server.task_exec.tasks - INFO - 任务进度已更新: 57%
+2025-07-26 19:38:15 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:15 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 60}}
+2025-07-26 19:38:15 - server.task_exec.tasks - INFO - 收到进度消息: 60%
+2025-07-26 19:38:15 - server.task_exec.tasks - INFO - 任务进度已更新: 60%
+2025-07-26 19:38:19 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:19 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 62}}
+2025-07-26 19:38:19 - server.task_exec.tasks - INFO - 收到进度消息: 62%
+2025-07-26 19:38:19 - server.task_exec.tasks - INFO - 任务进度已更新: 62%
+2025-07-26 19:38:23 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:24 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:24 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 65}}
+2025-07-26 19:38:24 - server.task_exec.tasks - INFO - 收到进度消息: 65%
+2025-07-26 19:38:24 - server.task_exec.tasks - INFO - 任务进度已更新: 65%
+2025-07-26 19:38:26 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:28 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:28 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 67}}
+2025-07-26 19:38:28 - server.task_exec.tasks - INFO - 收到进度消息: 67%
+2025-07-26 19:38:28 - server.task_exec.tasks - INFO - 任务进度已更新: 67%
+2025-07-26 19:38:28 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 70}}
+2025-07-26 19:38:28 - server.task_exec.tasks - INFO - 收到进度消息: 70%
+2025-07-26 19:38:28 - server.task_exec.tasks - INFO - 任务进度已更新: 70%
+2025-07-26 19:38:28 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 72}}
+2025-07-26 19:38:28 - server.task_exec.tasks - INFO - 收到进度消息: 72%
+2025-07-26 19:38:28 - server.task_exec.tasks - INFO - 任务进度已更新: 72%
+2025-07-26 19:38:29 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:30 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:30 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 75}}
+2025-07-26 19:38:30 - server.task_exec.tasks - INFO - 收到进度消息: 75%
+2025-07-26 19:38:30 - server.task_exec.tasks - INFO - 任务进度已更新: 75%
+2025-07-26 19:38:31 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:32 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:32 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 77}}
+2025-07-26 19:38:32 - server.task_exec.tasks - INFO - 收到进度消息: 77%
+2025-07-26 19:38:32 - server.task_exec.tasks - INFO - 任务进度已更新: 77%
+2025-07-26 19:38:33 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:33 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:33 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 80}}
+2025-07-26 19:38:33 - server.task_exec.tasks - INFO - 收到进度消息: 80%
+2025-07-26 19:38:33 - server.task_exec.tasks - INFO - 任务进度已更新: 80%
+2025-07-26 19:38:35 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:39 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:40 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:40 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 82}}
+2025-07-26 19:38:40 - server.task_exec.tasks - INFO - 收到进度消息: 82%
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 任务进度已更新: 82%
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 85}}
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 收到进度消息: 85%
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 任务进度已更新: 85%
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 87}}
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 收到进度消息: 87%
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 任务进度已更新: 87%
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 90}}
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 收到进度消息: 90%
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 任务进度已更新: 90%
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 92}}
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 收到进度消息: 92%
+2025-07-26 19:38:41 - server.task_exec.tasks - INFO - 任务进度已更新: 92%
+2025-07-26 19:38:41 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:43 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:44 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:44 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 95}}
+2025-07-26 19:38:44 - server.task_exec.tasks - INFO - 收到进度消息: 95%
+2025-07-26 19:38:44 - server.task_exec.tasks - INFO - 任务进度已更新: 95%
+2025-07-26 19:38:45 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:47 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:50 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:38:50 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 97}}
+2025-07-26 19:38:50 - server.task_exec.tasks - INFO - 收到进度消息: 97%
+2025-07-26 19:38:50 - server.task_exec.tasks - INFO - 任务进度已更新: 97%
+2025-07-26 19:38:50 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'PROGRESS', 'data': {'progress': 100}}
+2025-07-26 19:38:50 - server.task_exec.tasks - INFO - 收到进度消息: 100%
+2025-07-26 19:38:50 - server.task_exec.tasks - INFO - 任务进度已更新: 100%
+2025-07-26 19:38:51 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:39:13 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:40:42 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2025-07-26 19:41:17 - server.task_exec.tasks - INFO - 任务执行完成！
+2025-07-26 19:41:17 - server.task_exec.tasks - INFO - 已发送完成消息到主进程
+2025-07-26 19:41:17 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_7cc64ab5a6914af99b8e21a7bfbc692e', 'type': 'FINISH', 'data': {'project_name': '中心区N1区学校项目', 'general': {'project_name': {'chinese_name': '项目名称', 'value': '中心区N1区学校建设工程', 'candidates': []}, 'construction_nature': {'chinese_name': '建设性质', 'value': '新建', 'candidates': ['新建']}, 'project_location': {'chinese_name': '项目地点', 'value': '广东省深圳市宝安区', 'candidates': ['深圳市宝安区新安街道办事处', '深圳市宝安区湖滨路17号', '深圳市宝安区宝城29区宝民一路202-8号']}, 'construction_location_level': {'chinese_name': '建设地点等级', 'value': '一线城市', 'candidates': []}, 'primary_project_category': {'chinese_name': '一级项目类别', 'value': '教育建筑', 'candidates': ['学校']}, 'total_building_area': {'chinese_name': '总建筑面积', 'value': '27955.93', 'candidates': ['28195.11平方米', '18485平方米', '7992.11平方米']}, 'above_ground_building_area': {'chinese_name': '地上建筑面积', 'value': '19502.68', 'candidates': ['28195.11', '2819511', '18485', '1950268']}, 'underground_building_area': {'chinese_name': '地下建筑面积', 'value': '8453.25', 'candidates': ['12000', '799211', '479328', '18485']}, 'land_area': {'chinese_name': '占地面积', 'value': '14249.43', 'candidates': ['14249.43', '27955.93', '14249']}, 'plot_ratio': {'chinese_name': '容积率', 'value': '1.627', 'candidates': ['1.155', '1.627', '2.0']}, 'degree_count': {'chinese_name': '学位数', 'value': '宝安区', 'candidates': ['1620']}, 'total_households': {'chinese_name': '住宅总户数', 'value': '数据中无该字段对应值', 'candidates': []}, 'bed_count': {'chinese_name': '床位数', 'value': '数据中无该字段对应值', 'candidates': []}, 'room_count': {'chinese_name': '客房数', 'value': 0, 'candidates': ['120', '80', '60']}, 'investment_type': {'chinese_name': '投资类型', 'value': '政府投资', 'candidates': ['政府投资']}, 'cost_stage': {'chinese_name': '造价阶段', 'value': '招标阶段', 'candidates': []}, 'execution_list': {'chinese_name': '执行清单', 'value': 'GB50500-2013《建设工程工程量清单计价规范》', 'candidates': ['GB50500-2013《建设工程工程量清单计价规范》']}, 'building_base_area': {'chinese_name': '建筑物基底面积', 'value': '3734.84', 'candidates': ['4765.94', '3046.23', '26.21']}, 'landscape_area': {'chinese_name': '景观面积', 'value': 10514.59, 'candidates': []}, 'greening_area': {'chinese_name': '绿化面积', 'value': '5370', 'candidates': ['3734.84', '26.21', '37']}, 'greening_rate': {'chinese_name': '绿化率', 'value': '37.69%', 'candidates': []}, 'elevator': {'chinese_name': '电梯', 'value': 5, 'candidates': []}, 'charger_parking_spaces': {'chinese_name': '充电桩停车位', 'value': '23', 'candidates': []}, 'total_parking_spaces': {'chinese_name': '总停车位', 'value': '23', 'candidates': []}, 'start_date': {'chinese_name': '开工日期', 'value': '2019年08月01日', 'candidates': ['2019年08月01日', '2019年8月1日', '2020年12月1日']}, 'completion_date': {'chinese_name': '竣工日期', 'value': '2020年12月01日', 'candidates': ['2020年12月01日', '2020年12月01日', '2020年12月01日']}, 'construction_period': {'chinese_name': '工期', 'value': 489, 'candidates': []}, 'foundation_type': {'chinese_name': '基础类型', 'value': '桩基础', 'candidates': []}, 'construction_unit': {'chinese_name': '建设单位', 'value': '深圳市宝安区教育局', 'candidates': ['深圳市宝安区新安街道办事处', '深圳市宝安区建设工程监理公司']}, 'design_unit': {'chinese_name': '设计单位', 'value': '深圳市物业国际建筑设计有限公司', 'candidates': ['深圳市物业国际建筑设计有限公司']}, 'civil_defense_building_area': {'chinese_name': '人防建筑面积', 'value': '1424', 'candidates': ['1350']}, 'earthquake_level': {'chinese_name': '抗震等级', 'value': '一级', 'candidates': []}}, 'business_type': {'building_area': {'chinese_name': '建筑面积', '宿舍楼': {'value': 2138.33, 'other_info': {'1层平面图': 322.24, '2层平面图': 290.4, '3层平面图': 290.4, '5层平面图': 290.4, '4层平面图': 313.56, '7层平面图': 290.4, '6层平面图': 290.4, '屋顶平面图': 50.53}, 'candidates': []}, '教学楼': {'value': 17364.35, 'other_info': {'1层平面图': 2677.49, '2层平面图': 2978.64, '5层平面图': 3226.46, '3层平面图': 3254.64, '4层平面图': 3254.64, '6层平面图': 1827.98, '天面层平面图': 144.5}, 'candidates': []}, '地下室': {'value': 8453.25, 'other_info': {'-1层平面图': 8453.25}, 'candidates': []}}, 'building_height': {'chinese_name': '建筑高度', '宿舍楼': {'value': -1, 'candidates': []}, '教学楼': {'value': -1, 'candidates': []}, '地下室': {'value': -1, 'candidates': []}}, 'standard_floor_height': {'chinese_name': '标准层高', '宿舍楼': {'value': -1, 'candidates': []}, '教学楼': {'value': -1, 'candidates': []}, '地下室': {'value': -1, 'candidates': []}}, 'number_of_floors': {'chinese_name': '楼层数', '宿舍楼': {'value': 7, 'candidates': []}, '教学楼': {'value': 6, 'candidates': []}, '地下室': {'value': 1, 'candidates': []}}, 'structure_type': {'chinese_name': '结构类型', '宿舍楼': {'value': '框架剪力墙结构', 'candidates': []}, '教学楼': {'value': '框架剪力墙结构', 'candidates': []}, '地下室': {'value': '框架剪力墙结构', 'candidates': []}}, 'service_life': {'chinese_name': '使用年限', '宿舍楼': {'value': 50, 'candidates': []}, '教学楼': {'value': 50, 'candidates': []}, '地下室': {'value': 50, 'candidates': []}}, 'business_earthquake_level': {'chinese_name': '业态抗震等级', '宿舍楼': {'value': '一级', 'candidates': []}, '教学楼': {'value': '二级', 'candidates': []}, '地下室': {'value': '二级,局部一级（详平面）', 'candidates': []}}, 'building_fortification_intensity': {'chinese_name': '建筑设防烈度', '宿舍楼': {'value': 7, 'candidates': []}, '教学楼': {'value': 7, 'candidates': []}, '地下室': {'value': 7, 'candidates': []}}}}}
+2025-07-26 19:41:17 - server.task_exec.tasks - INFO - 收到完成消息: {'project_name': '中心区N1区学校项目', 'general': {'project_name': {'chinese_name': '项目名称', 'value': '中心区N1区学校建设工程', 'candidates': []}, 'construction_nature': {'chinese_name': '建设性质', 'value': '新建', 'candidates': ['新建']}, 'project_location': {'chinese_name': '项目地点', 'value': '广东省深圳市宝安区', 'candidates': ['深圳市宝安区新安街道办事处', '深圳市宝安区湖滨路17号', '深圳市宝安区宝城29区宝民一路202-8号']}, 'construction_location_level': {'chinese_name': '建设地点等级', 'value': '一线城市', 'candidates': []}, 'primary_project_category': {'chinese_name': '一级项目类别', 'value': '教育建筑', 'candidates': ['学校']}, 'total_building_area': {'chinese_name': '总建筑面积', 'value': '27955.93', 'candidates': ['28195.11平方米', '18485平方米', '7992.11平方米']}, 'above_ground_building_area': {'chinese_name': '地上建筑面积', 'value': '19502.68', 'candidates': ['28195.11', '2819511', '18485', '1950268']}, 'underground_building_area': {'chinese_name': '地下建筑面积', 'value': '8453.25', 'candidates': ['12000', '799211', '479328', '18485']}, 'land_area': {'chinese_name': '占地面积', 'value': '14249.43', 'candidates': ['14249.43', '27955.93', '14249']}, 'plot_ratio': {'chinese_name': '容积率', 'value': '1.627', 'candidates': ['1.155', '1.627', '2.0']}, 'degree_count': {'chinese_name': '学位数', 'value': '宝安区', 'candidates': ['1620']}, 'total_households': {'chinese_name': '住宅总户数', 'value': '数据中无该字段对应值', 'candidates': []}, 'bed_count': {'chinese_name': '床位数', 'value': '数据中无该字段对应值', 'candidates': []}, 'room_count': {'chinese_name': '客房数', 'value': 0, 'candidates': ['120', '80', '60']}, 'investment_type': {'chinese_name': '投资类型', 'value': '政府投资', 'candidates': ['政府投资']}, 'cost_stage': {'chinese_name': '造价阶段', 'value': '招标阶段', 'candidates': []}, 'execution_list': {'chinese_name': '执行清单', 'value': 'GB50500-2013《建设工程工程量清单计价规范》', 'candidates': ['GB50500-2013《建设工程工程量清单计价规范》']}, 'building_base_area': {'chinese_name': '建筑物基底面积', 'value': '3734.84', 'candidates': ['4765.94', '3046.23', '26.21']}, 'landscape_area': {'chinese_name': '景观面积', 'value': 10514.59, 'candidates': []}, 'greening_area': {'chinese_name': '绿化面积', 'value': '5370', 'candidates': ['3734.84', '26.21', '37']}, 'greening_rate': {'chinese_name': '绿化率', 'value': '37.69%', 'candidates': []}, 'elevator': {'chinese_name': '电梯', 'value': 5, 'candidates': []}, 'charger_parking_spaces': {'chinese_name': '充电桩停车位', 'value': '23', 'candidates': []}, 'total_parking_spaces': {'chinese_name': '总停车位', 'value': '23', 'candidates': []}, 'start_date': {'chinese_name': '开工日期', 'value': '2019年08月01日', 'candidates': ['2019年08月01日', '2019年8月1日', '2020年12月1日']}, 'completion_date': {'chinese_name': '竣工日期', 'value': '2020年12月01日', 'candidates': ['2020年12月01日', '2020年12月01日', '2020年12月01日']}, 'construction_period': {'chinese_name': '工期', 'value': 489, 'candidates': []}, 'foundation_type': {'chinese_name': '基础类型', 'value': '桩基础', 'candidates': []}, 'construction_unit': {'chinese_name': '建设单位', 'value': '深圳市宝安区教育局', 'candidates': ['深圳市宝安区新安街道办事处', '深圳市宝安区建设工程监理公司']}, 'design_unit': {'chinese_name': '设计单位', 'value': '深圳市物业国际建筑设计有限公司', 'candidates': ['深圳市物业国际建筑设计有限公司']}, 'civil_defense_building_area': {'chinese_name': '人防建筑面积', 'value': '1424', 'candidates': ['1350']}, 'earthquake_level': {'chinese_name': '抗震等级', 'value': '一级', 'candidates': []}}, 'business_type': {'building_area': {'chinese_name': '建筑面积', '宿舍楼': {'value': 2138.33, 'other_info': {'1层平面图': 322.24, '2层平面图': 290.4, '3层平面图': 290.4, '5层平面图': 290.4, '4层平面图': 313.56, '7层平面图': 290.4, '6层平面图': 290.4, '屋顶平面图': 50.53}, 'candidates': []}, '教学楼': {'value': 17364.35, 'other_info': {'1层平面图': 2677.49, '2层平面图': 2978.64, '5层平面图': 3226.46, '3层平面图': 3254.64, '4层平面图': 3254.64, '6层平面图': 1827.98, '天面层平面图': 144.5}, 'candidates': []}, '地下室': {'value': 8453.25, 'other_info': {'-1层平面图': 8453.25}, 'candidates': []}}, 'building_height': {'chinese_name': '建筑高度', '宿舍楼': {'value': -1, 'candidates': []}, '教学楼': {'value': -1, 'candidates': []}, '地下室': {'value': -1, 'candidates': []}}, 'standard_floor_height': {'chinese_name': '标准层高', '宿舍楼': {'value': -1, 'candidates': []}, '教学楼': {'value': -1, 'candidates': []}, '地下室': {'value': -1, 'candidates': []}}, 'number_of_floors': {'chinese_name': '楼层数', '宿舍楼': {'value': 7, 'candidates': []}, '教学楼': {'value': 6, 'candidates': []}, '地下室': {'value': 1, 'candidates': []}}, 'structure_type': {'chinese_name': '结构类型', '宿舍楼': {'value': '框架剪力墙结构', 'candidates': []}, '教学楼': {'value': '框架剪力墙结构', 'candidates': []}, '地下室': {'value': '框架剪力墙结构', 'candidates': []}}, 'service_life': {'chinese_name': '使用年限', '宿舍楼': {'value': 50, 'candidates': []}, '教学楼': {'value': 50, 'candidates': []}, '地下室': {'value': 50, 'candidates': []}}, 'business_earthquake_level': {'chinese_name': '业态抗震等级', '宿舍楼': {'value': '一级', 'candidates': []}, '教学楼': {'value': '二级', 'candidates': []}, '地下室': {'value': '二级,局部一级（详平面）', 'candidates': []}}, 'building_fortification_intensity': {'chinese_name': '建筑设防烈度', '宿舍楼': {'value': 7, 'candidates': []}, '教学楼': {'value': 7, 'candidates': []}, '地下室': {'value': 7, 'candidates': []}}}}
+2025-07-26 19:41:17 - server.task_exec.tasks - INFO - 任务状态已更新为已完成
+2025-07-26 19:41:17 - server.task_exec.tasks - INFO - 任务成功完成！
+2025-07-26 19:42:38 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 19:42:49 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 19:42:49 - server.task_exec.tasks - INFO - 启动任务进程: task_43cac73bc71446f8bf7e5009ebfdc4d3
+2025-07-26 19:42:49 - server.task_exec.tasks - INFO - 项目路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/file_system/中心区N1区学校项目
+2025-07-26 19:42:49 - server.task_exec.tasks - INFO - 模型名称: qwen2.5-7b-instruct
+2025-07-26 19:42:49 - server.task_exec.tasks - INFO - 输出目录: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results
+2025-07-26 19:42:49 - server.task_exec.tasks - INFO - 任务参数: {'project_path': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/file_system/中心区N1区学校项目', 'task_id': 'task_43cac73bc71446f8bf7e5009ebfdc4d3', 'agent_model_name': 'qwen2.5-7b-instruct', 'output_dir': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results'}
+2025-07-26 19:42:49 - server.task_exec.tasks - INFO - 任务进程已启动，PID: 101640
+2025-07-26 19:42:49 - server.task_exec.tasks - INFO - 开始监听任务消息队列...
+2025-07-26 19:42:52 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 19:42:52 - server.task_exec.tasks - INFO - 工作进程开始执行任务: task_43cac73bc71446f8bf7e5009ebfdc4d3
+2025-07-26 19:42:52 - server.task_exec.tasks - INFO - 接收到的参数: {'project_path': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/file_system/中心区N1区学校项目', 'task_id': 'task_43cac73bc71446f8bf7e5009ebfdc4d3', 'agent_model_name': 'qwen2.5-7b-instruct', 'output_dir': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results'}
+2025-07-26 19:42:52 - server.task_exec.tasks - INFO - 工作目录: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/file_system/中心区N1区学校项目
+2025-07-26 19:42:52 - server.task_exec.tasks - INFO - 使用模型: qwen2.5-7b-instruct
+2025-07-26 19:42:52 - server.task_exec.tasks - INFO - 输出目录: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results
+2025-07-26 19:42:52 - server.task_exec.tasks - INFO - 输出目录已创建/确认: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results
+2025-07-26 19:42:52 - server.task_exec.tasks - INFO - 开始执行CAD识别任务...
+2025-07-26 19:42:52 - server.task_exec.tasks - INFO - 已发送开始消息到主进程
+2025-07-26 19:42:52 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_43cac73bc71446f8bf7e5009ebfdc4d3', 'type': 'START', 'data': {'project_path': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/file_system/中心区N1区学校项目', 'task_id': 'task_43cac73bc71446f8bf7e5009ebfdc4d3', 'agent_model_name': 'qwen2.5-7b-instruct', 'output_dir': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results'}}
+2025-07-26 19:42:52 - server.task_exec.tasks - INFO - 收到开始消息: {'project_path': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/file_system/中心区N1区学校项目', 'task_id': 'task_43cac73bc71446f8bf7e5009ebfdc4d3', 'agent_model_name': 'qwen2.5-7b-instruct', 'output_dir': '/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/data/tmp/extract_results'}
+2025-07-26 19:42:52 - server.task_exec.tasks - INFO - 任务状态已更新为运行中
+2025-07-26 19:43:03 - server.task_exec.tasks - ERROR - 任务执行出错: division by zero
+2025-07-26 19:43:03 - server.task_exec.tasks - ERROR - 错误类型: ZeroDivisionError
+2025-07-26 19:43:03 - server.task_exec.tasks - ERROR - 完整堆栈跟踪:
+Traceback (most recent call last):
+  File "/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/server/task_exec/tasks.py", line 87, in _cad_identify_worker
+    result = identifier.extract_filds(FIELDS_POOL,queue=queue,task_id=task_id)
+  File "/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/extraction/identifier.py", line 129, in extract_filds
+    print(1/0)
+ZeroDivisionError: division by zero
+
+2025-07-26 19:43:03 - server.task_exec.tasks - INFO - 已发送失败消息到主进程
+2025-07-26 19:43:03 - server.task_exec.tasks - ERROR - 任务 task_43cac73bc71446f8bf7e5009ebfdc4d3 执行失败，详细错误信息已发送到主进程
+2025-07-26 19:43:03 - server.task_exec.tasks - INFO - 收到消息: {'task_id': 'task_43cac73bc71446f8bf7e5009ebfdc4d3', 'type': 'FAIL', 'data': {'error': 'division by zero', 'error_type': 'ZeroDivisionError', 'traceback': 'Traceback (most recent call last):\n  File "/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/server/task_exec/tasks.py", line 87, in _cad_identify_worker\n    result = identifier.extract_filds(FIELDS_POOL,queue=queue,task_id=task_id)\n  File "/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/extraction/identifier.py", line 129, in extract_filds\n    print(1/0)\nZeroDivisionError: division by zero\n', 'sys_info': {'python_version': '3.10.18 (main, Jun  5 2025, 13:14:17) [GCC 11.2.0]', 'platform': 'linux'}}}
+2025-07-26 19:43:03 - server.task_exec.tasks - INFO - 收到失败消息: {'error': 'division by zero', 'error_type': 'ZeroDivisionError', 'traceback': 'Traceback (most recent call last):\n  File "/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/server/task_exec/tasks.py", line 87, in _cad_identify_worker\n    result = identifier.extract_filds(FIELDS_POOL,queue=queue,task_id=task_id)\n  File "/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/extraction/identifier.py", line 129, in extract_filds\n    print(1/0)\nZeroDivisionError: division by zero\n', 'sys_info': {'python_version': '3.10.18 (main, Jun  5 2025, 13:14:17) [GCC 11.2.0]', 'platform': 'linux'}}
+2025-07-26 19:43:03 - server.task_exec.tasks - INFO - 任务状态已更新为失败
+2025-07-26 19:43:03 - server.task_exec.tasks - ERROR - 任务执行失败: {'error': 'division by zero', 'error_type': 'ZeroDivisionError', 'traceback': 'Traceback (most recent call last):\n  File "/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/server/task_exec/tasks.py", line 87, in _cad_identify_worker\n    result = identifier.extract_filds(FIELDS_POOL,queue=queue,task_id=task_id)\n  File "/opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/extraction/identifier.py", line 129, in extract_filds\n    print(1/0)\nZeroDivisionError: division by zero\n', 'sys_info': {'python_version': '3.10.18 (main, Jun  5 2025, 13:14:17) [GCC 11.2.0]', 'platform': 'linux'}}
+2025-07-26 20:00:32 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 20:02:40 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 20:06:13 - fastapi - WARNING - email-validator not installed, email fields will be treated as str.
+To install, run: pip install email-validator
+2025-07-26 20:08:28 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 20:11:45 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 20:12:18 - fastapi - WARNING - email-validator not installed, email fields will be treated as str.
+To install, run: pip install email-validator
+2025-07-26 20:13:01 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 20:13:52 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 20:13:55 - fastapi - WARNING - email-validator not installed, email fields will be treated as str.
+To install, run: pip install email-validator
+2025-07-26 20:17:13 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 20:17:26 - fastapi - WARNING - email-validator not installed, email fields will be treated as str.
+To install, run: pip install email-validator
+2025-07-26 21:27:46 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log
+2025-07-26 21:41:12 - server.task_exec.tasks - INFO - 日志文件路径: /opt/data/private/liuteng/code/dev/gc-cad-cr-server/src/logs/task_exec_20250726.log

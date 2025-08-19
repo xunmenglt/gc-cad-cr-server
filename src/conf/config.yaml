@@ -1,0 +1,109 @@
+database:
+
+  root_path:
+  # 「本地」数据库地址
+  # Type: str
+  # ENV Variable: APP_DATABASE_PATH
+
+vector_store:
+  # 向量数据库参数
+
+  type: chroma
+  # 向量数据库类型，可选项：{milvus, chroma}.
+  # Type: str
+  # ENV Variable: APP_VECTOR_STORE_TYPE
+
+  name: rag
+  # 向量数据库名称
+  # Type: str
+  # ENV Variable: APP_VECTOR_STORE_NAME
+
+  host:
+  # 向量数据库ip地址.
+  # Type: str
+  # ENV Variable: APP_VECTOR_STORE_HOST
+
+  port:
+  # 向量数据库连接端口
+  # Type: str
+  # ENV Variable: APP_VECTOR_STORE_PORT
+
+  user:
+  # 向量数据库连接用户名
+  # Type: str
+  # ENV Variable: APP_VECTOR_STORE_USER
+
+  password:
+  # 向量数据库连接密码
+  # Type: str
+  # ENV Variable: APP_VECTOR_STORE_PASSWORD
+
+  kwargs: {
+      "search_params":{"metric_type": "IP"},
+      "index_params":{"metric_type": "IP", "index_type":"HNSW", "params": {"M": 8, "efConstruction": 64}}
+  }
+  # 向量数据库配置信息，兼容不同类型数据库需求
+  # Type: str
+  # ENV Variable: APP_VECTOR_STORE_KWARGS
+
+
+llm:
+  # 大模型服务配置参数
+  api_key:
+  # 大模型推理服务api_key, 仅在调用OPENAI服务时需要提供
+  # Type: str
+  # ENV Variable: APP_LLM_API_KEY
+
+  ip:
+  # 大模型推理服务IP
+  # Type: str
+  # ENV Variable: APP_LLM_IP
+
+  port:
+  # 大模型推理服务端口
+  # Type: str
+  # ENV Variable: APP_LLM_PORT
+
+  grpc_port:
+  # 大模型推理服务grpc端口，仅在teco backend时需要指定
+  # Type: str
+  # ENV Variable: APP_LLM_GRPC_PORT
+
+  model_name:
+  # 大模型名称.
+  # Type: str
+  # ENV Variable: APP_LLM_MODEL_NAME
+
+  model_engine:
+  # 推理引擎类型（backend），可选项有{teco：太初加速卡；nvidia: nv-gpu；openai: openai在线服务}
+  # Type: str
+  # ENV Variable: APP_LLM_MODEL_ENGINE
+
+text_splitter:
+  # The configuration for the Text Splitter.
+
+  splitter_name: ChineseRecursiveTextSplitter
+  # splitter class name.
+  # Type: str
+  # ENV Variable: APP_TEXT_SPLITTER_SPLITTER_NAME
+
+  chunk_size: 200
+  # Chunk size.
+  # Type: int
+  # ENV Variable: APP_TEXT_SPLITTER_CHUNK_SIZE
+
+  chunk_overlap: 50
+  # Overlapping text length for splitting.
+  # Type: int
+  # ENV Variable: APP_TEXT_SPLITTER_CHUNK_OVERLAP
+
+  smaller_chunk_size: 0
+  # >= 0的整数； 设置为0代表不开启 smaller-chunk
+  # Type: int
+  # ENV Variable: APP_TEXT_SPLITTER_SMALLER_CHUNK_SIZE
+
+  summary: 0
+  # 是否开启summary
+  # Type: int
+  # ENV Variable: APP_TEXT_SPLITTER_SUMMARY
+

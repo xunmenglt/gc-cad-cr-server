@@ -1,0 +1,6 @@
+**/data
+data
+src/data
+client
+core
+**/__pycache__
