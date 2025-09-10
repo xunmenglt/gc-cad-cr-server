@@ -127,7 +127,7 @@ def image_to_base64(image_path):
         base64_image = base64.b64encode(image_file.read()).decode('utf-8')
     return base64_image
 
-def image_to_markdown(image_path):
+def image_to_markdown(image_path,data_type="png"):
     if not os.path.exists(image_path):
         return ""
     base64_image=image_to_base64(image_path)
@@ -144,7 +144,7 @@ def image_to_markdown(image_path):
                     "content": [
                         {
                             "type": "image_url",
-                            "image_url": {"url": f"data:image/png;base64,{base64_image}"}, 
+                            "image_url": {"url": f"data:image/{data_type};base64,{base64_image}"}, 
                         },
                         {"type": "text", "text": markdown_transfrom_prompt},
                     ],
@@ -164,7 +164,7 @@ def image_to_markdown(image_path):
     except Exception as e:
         return ""
     
-def image_to_text(image_path):
+def image_to_text(image_path,data_type="png"):
     if not os.path.exists(image_path):
         return ""
     base64_image=image_to_base64(image_path)
@@ -181,7 +181,7 @@ def image_to_text(image_path):
                     "content": [
                         {
                             "type": "image_url",
-                            "image_url": {"url": f"data:image/png;base64,{base64_image}"}, 
+                            "image_url": {"url": f"data:image/{data_type};base64,{base64_image}"}, 
                         },
                         {"type": "text", "text": text_transfrom_prompt},
                     ],

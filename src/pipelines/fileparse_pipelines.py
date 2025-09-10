@@ -11,7 +11,6 @@ from pipelines.base import PipeLine
 from parser.text_parser import MapTextParser
 from parser.table_parser import MapTableparser
 from parser.facade_parser import FacadeParser
-from rag.module.indexing.loader.doc_loader import CustomizedOcrDocLoader
 from rag.module.indexing.loader.pdf_loader import CustomizedOcrPdfLoader
 from langchain_community.document_loaders import UnstructuredFileLoader
 from conf.config import DATA_TMP_DIR
@@ -142,18 +141,7 @@ class DwgTextParsePipeLine(FileParsePipeLine):
             return
         openmapService=OpenmapService()
         params=OpenMapRequestParams(fileid=fileid,uploadname=uploadname)
-        while True:
-            print(f"正在解析图纸【{file_path}】")
-            open_res=openmapService.openmap(mapid=mapid,params=params)
-            open_status=open_res.get('status',None)
-            if open_status=='error':
-                print(open_res)
-                raise RuntimeError(f"解析图纸失败:{file_path}")
-            elif open_status!='finish':
-                time.sleep(6)
-                continue
-            else:
-                break
+        openmapService.openmap(mapid=mapid,params=params)
         self.min_distence=min_distence
         self.map_text_parser=MapTextParser(mapid=mapid,geom=True)
         self.map_table_parser=MapTableparser(mapid=mapid,geom=True)
@@ -218,6 +206,93 @@ class DwgTextParsePipeLine(FileParsePipeLine):
             uploadname=self.uploadname
         )
         return file_context
+    
+class DwgTextParseByMapIdAndFileIdPipeLine(FileParsePipeLine):
+    def __init__(self,mapid:str,fileid:str,uploadname:str,min_distence:int=2000):
+        assert mapid and fileid and uploadname
+        self.mapid=mapid
+        self.fileid=fileid
+        self.uploadname=uploadname
+        self.content_list=[]
+        self.text_list=[]
+        self.table_content_list=[]
+        self.facade_content_list=[]
+        self.file_path=""
+        super().__init__(self.file_path)
+        if self.content_list and len(self.content_list)>0:
+            return
+        openmapService=OpenmapService()
+        params=OpenMapRequestParams(fileid=fileid,uploadname=uploadname)
+        openmapService.openmap(mapid=mapid,params=params)
+        self.min_distence=min_distence
+        self.map_text_parser=MapTextParser(mapid=mapid,geom=True)
+        self.map_table_parser=MapTableparser(mapid=mapid,geom=True)
+        self.facade_parser=FacadeParser(mapid=mapid,geom=True)
+        
+    
+    def invoke(self,**kwargs)->BaseFileContext:
+        if self.content_list and len(self.content_list)>0:
+            file_context=DwgFileContext(
+                file_path=self.file_path,
+                text_content_list=self.content_list,
+                text_list=self.text_list,
+                table_content_list=self.table_content_list,
+                fileid=self.fileid,
+                mapid=self.mapid,
+                uploadname=self.uploadname,
+                paragraphs=self.paragraphs,
+                facade_content_list=self.facade_content_list
+            )
+            return file_context
+        try:
+            clusters=self.map_text_parser.text_clusters(min_distence=self.min_distence)
+            for cluster in clusters:
+                content=self.map_text_parser.text_cluster_to_content(cluster=cluster,min_distence=200)
+                self.content_list.append(content)
+            table_contents=self.map_table_parser.extract_table_to_content_list()
+            self.table_content_list=table_contents
+            self.text_list=self.map_text_parser.text_list
+            
+            label=kwargs.get("label",None)
+            if label and label=="建筑设计总说明":
+                table_title_list=["技术经济指标","结构设计等级","建筑分类等级",'结构类型、设计分类等级']
+                for title in tqdm.tqdm(table_title_list,desc=f"正在抽取【{label}】相关表格"):
+                    title_splitter=TitleBelowTableSplitter(
+                        title=title,
+                        text_list=self.text_list,
+                        mapid=self.mapid
+                    )
+                    path=title_splitter.save_to_image()
+                    if path:
+                        res=image_to_markdown(image_path=path)
+                        if res:
+                            self.paragraphs.append({
+                                "title": title,
+                                "content": res
+                            })
+            if label and "立面" in label:
+                self.facade_content_list=self.facade_parser.load()
+        except Exception as e:
+            print(e)
+            raise RuntimeError("执行异常")
+        finally:
+            self._tmp()
+        file_context=DwgFileContext(
+            file_path=self.file_path,
+            text_content_list=self.content_list,
+            text_list=self.text_list,
+            table_content_list=self.table_content_list,
+            facade_content_list=self.facade_content_list,
+            fileid=self.fileid,
+            mapid=self.mapid,
+            uploadname=self.uploadname
+        )
+        return file_context
+    
+    def _tmp_check(self):
+        pass
+    def _tmp(self):
+        pass
     
 class DocParsePipeLine(FileParsePipeLine):
     def __init__(self,file_path:str):
@@ -351,6 +426,74 @@ class XmlFParsePipeLine(FileParsePipeLine):
         return file_context
 
 
+class PngParsePipeLine(FileParsePipeLine):
+    def __init__(self,file_path:str):
+        assert file_path
+        self.file_path=file_path
+        self.paragraphs=[]
+        super().__init__(file_path)
+        
+    def invoke(self,**kwargs)->List[str]:
+        if self.content_list and len(self.content_list)>0:
+            file_context=BaseFileContext(
+                file_path=self.file_path,
+                text_content_list=self.content_list,
+                paragraphs=self.paragraphs
+            )
+            return file_context
+        try:
+            res=image_to_markdown(image_path=self.file_path,data_type="png")
+            self.content_list=[res]
+            self.paragraphs=[{
+                "title":"OLE",
+                "content":res
+            }]
+        except Exception as e:
+            print(e)
+            raise RuntimeError("执行异常")
+        finally:
+            self._tmp()
+        file_context=BaseFileContext(
+            file_path=self.file_path,
+            text_content_list=self.content_list,
+            paragraphs=self.paragraphs
+        )
+        return file_context
+    
+class JpegParsePipeLine(FileParsePipeLine):
+    def __init__(self,file_path:str):
+        assert file_path
+        self.file_path=file_path
+        self.content_list=[]
+        super().__init__(file_path)
+        
+    def invoke(self,**kwargs)->List[str]:
+        if self.content_list and len(self.content_list)>0:
+            file_context=BaseFileContext(
+                file_path=self.file_path,
+                text_content_list=self.content_list,
+                paragraphs=self.paragraphs
+            )
+            return file_context
+        try:
+            res=image_to_markdown(image_path=self.file_path,data_type="jpeg")
+            self.content_list=[res]
+            self.paragraphs=[{
+                "title":"OLE",
+                "content":res
+            }]
+        except Exception as e:
+            print(e)
+            raise RuntimeError("执行异常")
+        finally:
+            self._tmp()
+        file_context=BaseFileContext(
+            file_path=self.file_path,
+            text_content_list=self.content_list,
+            paragraphs=self.paragraphs
+        )
+        return file_context 
+
 
 
 FILE_PARSE_PIPELINE_MAPPING={
@@ -359,7 +502,10 @@ FILE_PARSE_PIPELINE_MAPPING={
     ".pdf":PDFParsePipeLine,
     ".txt":TXTParsePipeLine,
     ".dwg":DwgTextParsePipeLine,
-    ".xml":XmlFParsePipeLine
+    ".xml":XmlFParsePipeLine,
+    ".png":PngParsePipeLine,
+    ".jpg":JpegParsePipeLine,
+    ".jpeg":JpegParsePipeLine,
 }
 
 def get_file_parse_pipeline(file_name_or_path)->PipeLine:

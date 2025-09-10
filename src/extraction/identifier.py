@@ -33,10 +33,11 @@ class CADContentIdentifier:
         project_name=os.path.basename(project_dir)
         self.project_name=project_name
         self.output_path=os.path.join(output_dir,f"{project_name}.json")
-        if os.path.exists(self.output_path):
-            self.is_use_tmp=True
-        else:
-            self.is_use_tmp=False
+        # if os.path.exists(self.output_path):
+        #     self.is_use_tmp=True
+        # else:
+        #     self.is_use_tmp=False
+        self.is_use_tmp=False
         self._init_project_context()
     
     
@@ -45,14 +46,11 @@ class CADContentIdentifier:
         directory=os.path.join(self.project_dir,label)
         if not (os.path.exists(directory) and os.path.isdir(directory)):
             raise ValueError(f"项目{self.project_dir}】中不存在目标【{label}】目录")
-        file_paths=get_all_files_in_dir(directory=directory,allowed_extensions=['.dwg','.docx','.doc','.xml'])
+        file_paths=get_all_files_in_dir(directory=directory,allowed_extensions=['.dwg','.docx','.doc','.xml','.png'])
         for file_path in tqdm.tqdm(file_paths,desc=f"正在解析【{label}】"):
             pipeline_clazz=get_file_parse_pipeline(file_name_or_path=file_path)
             pipeline=pipeline_clazz(file_path)
-            
-            file_context=pipeline.invoke(label=label)
-                
-            
+            file_context=pipeline.invoke(label=label)    
             # # 读取文本内容
             # text_content_list=pipeline.invoke()
             
@@ -77,6 +75,7 @@ class CADContentIdentifier:
             # if text_list and len(text_list)>0:
             #     file_context.text_list=text_list
             document_contexts.append(file_context)
+        
             
         return document_contexts
             

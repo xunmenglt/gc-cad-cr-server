@@ -39,11 +39,13 @@ from pipelines.ai_task_pipelines import (
     LandAreaFieldValueTaskLanguageModelPipeLine,
     HeightParsePipeLine,
     StandardHeightParsePipeLine,
-    CandidatesGenerationPipeLine
+    CandidatesGenerationPipeLine,
+    ExtractionCivilDefenseBuildingAreaFieldPipeLine,
+    ExtractionGreeningAreaFieldPipeLine
 )
 
 # 文件解析管道
-from pipelines.fileparse_pipelines import DwgTextParsePipeLine
+from pipelines.fileparse_pipelines import DwgTextParsePipeLine,DwgTextParseByMapIdAndFileIdPipeLine
 from pipelines.cut_off_pipelines import DwgImageCatOffPipeLine
 
 # 分割器
@@ -61,6 +63,7 @@ from utils.file import image_to_text
 
 # VJMap模块
 from vjmap.items import QueryItem
+from vjmap.services import ExportLayoutService
 
 
 # =============================================================================
@@ -238,8 +241,6 @@ class Field(ABC):
         try:
             self.value = self._extract_field_value(context=context)
         except Exception as e:
-            if self.name=="业态抗震等级":
-                print("qqqqqqqqqqq")
             self.value = self.default_value
             print(f"抽取字段【{self.name}】失败: {e}")
             return self.default_value
@@ -690,8 +691,27 @@ class DegreeCountField(BaseValueField):
         candidates=candidates_generation_pipe.invoke()
         return candidates
 
+    def _post_process(self):
+        if not self.value:
+            return self.default_value
+        if isinstance(self.value,str):
+            self.value=''.join(re.findall(r'\d+', self.value))
+            if not self.value.strip():
+                return self.default_value
+        self.value=int(self.value)
+        return self.value
+
 class TotalHouseholdsField(BaseValueField):
     """总户数字段"""
+    def _post_process(self):
+        if not self.value:
+            return self.default_value
+        if isinstance(self.value,str):
+            self.value=''.join(re.findall(r'\d+', self.value))
+            if not self.value.strip():
+                return self.default_value
+        self.value=int(self.value)
+        return self.value
     def general_candidates(self,context:ProjectContext):
         if not self.ref_data.texts or len(self.ref_data.texts)<=0:
             return []
@@ -730,6 +750,15 @@ class TotalHouseholdsField(BaseValueField):
         return candidates
 class BedCountField(BaseValueField):
     """床位数字段"""
+    def _post_process(self):
+        if not self.value:
+            return self.default_value
+        if isinstance(self.value,str):
+            self.value=''.join(re.findall(r'\d+', self.value))
+            if not self.value.strip():
+                return self.default_value
+        self.value=int(self.value)
+        return self.value
     def general_candidates(self,context:ProjectContext):
         if not self.ref_data.texts or len(self.ref_data.texts)<=0:
             return []
@@ -1037,8 +1066,10 @@ class TotalBuildingAreaField(BaseDependentsField):
         elif self.ref_value is not None and self.ref_value is not None:
             if abs(float(self.value)-float(self.ref_value))/float(self.ref_value)>=0.2:
                 self.value=self.ref_value
-        self.value=str(self.value)
-        return super()._post_process()
+        if self.value is None:
+            self.value=self.default_value
+        self.value=float(self.value)
+        return self.value
         
     def general_candidates(self,context:ProjectContext):
         if not self.ref_data.texts or len(self.ref_data.texts)<=0:
@@ -1109,8 +1140,10 @@ class AboveGroundBuildingAreaField(BaseDependentsField):
         elif self.ref_value is not None and self.ref_value is not None:
             if abs(float(self.value)-float(self.ref_value))/float(self.ref_value)>=0.3:
                 self.candidates=[self.ref_value]
-        self.value=str(self.value)
-        return super()._post_process()
+        if self.value is None:
+            self.value=self.default_value
+        self.value=float(self.value)
+        return self.value
     def general_candidates(self,context:ProjectContext):
         if not self.ref_data.texts or len(self.ref_data.texts)<=0:
             return []
@@ -1185,8 +1218,10 @@ class UndergroundBuildingAreaField(BaseDependentsField):
         elif self.ref_value is not None and self.ref_value is not None:
             if abs(float(self.value)-float(self.ref_value))/float(self.ref_value)>=0.2:
                 self.candidates=[self.ref_value]
-        self.value=str(self.value)
-        return super()._post_process()
+        if self.value is None:
+            self.value=self.default_value
+        self.value=float(self.value)
+        return self.value
     def general_candidates(self,context:ProjectContext):
         if not self.ref_data.texts or len(self.ref_data.texts)<=0:
             return []
@@ -1254,7 +1289,31 @@ class LandscapeAreaField(BaseDependentsField):
         self.value = value
         return value
     
+    def _post_process(self):
+        if not self.value:
+            return self.default_value
+        
+        if isinstance(self.value,str):
+            match = re.search(r'-?\d+\.?\d*', self.value)
+            if match:
+                self.value=match.group()
+            else:
+                self.value=self.default_value
+        self.value=float(self.value)
+        return self.value
+    
 class GreeningRateField(BaseDependentsField):
+    def _post_process(self):
+        if not self.value:
+            return self.default_value
+        if isinstance(self.value,str):
+            match = re.search(r'-?\d+\.?\d*', self.value)
+            if match:
+                self.value=match.group()
+            else:
+                self.value=self.default_value
+        self.value=float(self.value)
+        return self.value
     """绿化率=(绿化面积/占地面积)"""
     def parse_value_by_dependencies_values(self, dependencies_values):
         greening_area=dependencies_values[self.dependencies[0]]
@@ -1314,6 +1373,15 @@ class ConstructionPeriodField(BaseDependentsField):
         else:
             return None
     
+    def _post_process(self):
+        if not self.value:
+            return self.default_value
+        if isinstance(self.value,str):
+            self.value=''.join(re.findall(r'\d+', self.value))
+            if not self.value.strip():
+                return self.default_value
+        self.value=int(self.value)
+        return self.value
 
 class DateToDateByDaysField(BaseDependentsField):
     """日期加天数得到日期字段"""
@@ -1434,6 +1502,15 @@ class SingleAreaValueField(ParagraphMatchField):
 
 class RoomCountField(SingleAreaValueField):
     """客房数字段"""
+    def _post_process(self):
+        if not self.value:
+            return self.default_value
+        if isinstance(self.value,str):
+            self.value=''.join(re.findall(r'\d+', self.value))
+            if not self.value.strip():
+                return self.default_value
+        self.value=int(self.value)
+        return self.value
     def general_candidates(self,context:ProjectContext):
         if not self.ref_data.texts or len(self.ref_data.texts)<=0:
             return []
@@ -1475,6 +1552,18 @@ class RoomCountField(SingleAreaValueField):
 # 建筑物基底面积
 class BuildingBaseAreaField(SingleAreaValueField):
     """建筑物基底面积字段"""
+    def _post_process(self):
+        if not self.value:
+            return self.default_value
+        
+        if isinstance(self.value,str):
+            match = re.search(r'-?\d+\.?\d*', self.value)
+            if match:
+                self.value=match.group()
+            else:
+                self.value=self.default_value
+        self.value=float(self.value)
+        return self.value
     def general_candidates(self,context:ProjectContext):
         if not self.ref_data.texts or len(self.ref_data.texts)<=0:
             return []
@@ -1583,7 +1672,7 @@ class LandAreaField(SingleAreaValueField):
                 model_name=self.agent_model_name
             )
             value=pipline.invoke()     
-            if len(value)>10:
+            if isinstance(value,str) and len(value)>10:
                 pipline=self._get_pipeline()(
                     field_name=field_name,
                     content=value,
@@ -1592,6 +1681,20 @@ class LandAreaField(SingleAreaValueField):
                 )
                 value=pipline.invoke() 
         return value
+    
+    def _post_process(self):
+        if isinstance(self.value,str):
+            match = re.search(r'-?\d+\.?\d*', self.value)
+            if match:
+                self.value = match.group()
+            else:
+                self.value=self.default_value
+            self.value=float(self.value)
+        elif isinstance(self.value,(int,float)):
+            self.value=float(self.value)
+        else:
+            self.value=self.default_value
+        return self.value
     
     def general_candidates(self,context:ProjectContext):
          if not self.ref_data.texts or len(self.ref_data.texts)<=0:
@@ -1634,6 +1737,18 @@ class LandAreaField(SingleAreaValueField):
 # =============================================================================
 
 class PlotRatioField(SingleAreaValueField):
+    def _post_process(self):
+        if self.value is None:
+            self.value=self.default_value
+        else:
+            match = re.search(r'-?\d+\.?\d*', self.value)
+            if match:
+                self.value = match.group()
+            else:
+                self.value=self.default_value
+        self.value=float(self.value)
+        return self.value
+    
     """容积率字段"""
     def general_candidates(self, context: ProjectContext):
         if not self.ref_data.texts or len(self.ref_data.texts)<=0:
@@ -1675,6 +1790,17 @@ class PlotRatioField(SingleAreaValueField):
 
 class ChargerNumberField(SingleAreaValueField):
     """充电桩数量字段"""
+    
+    def _post_process(self):
+        if not self.value:
+            return self.default_value
+        if isinstance(self.value,str):
+            self.value=''.join(re.findall(r'\d+', self.value))
+            if not self.value.strip():
+                return self.default_value
+        self.value=int(self.value)
+        return self.value
+    
     def _get_pipeline(self):
         return ChargerCountExtractionPipeLine
     
@@ -1763,6 +1889,16 @@ class ParkingSpaceNumberField(ChargerNumberField):
     """停车位数量字段"""
     def _get_pipeline(self):
         return ParkingSpaceCountExtractionPipeLine
+    
+    def _post_process(self):
+        if not self.value:
+            return self.default_value
+        if isinstance(self.value,str):
+            self.value=''.join(re.findall(r'\d+', self.value))
+            if not self.value.strip():
+                return self.default_value
+        self.value=int(self.value)
+        return self.value
 
 # =============================================================================
 # 业态字段类
@@ -1797,16 +1933,14 @@ class BaseBusinessModelField(Field):
         raise NotImplementedError("请实现`_extract_field_business_model`方法")
     
     def _extract_field_value(self, context:ProjectContext)->Dict[str,Any]:
-        # 获取当前字段对应的业态信息
+        value:Dict[str,Dict[str,Any]]={}
+        # 获取当前字段对应的业态信息    
         if not context.business_model:
-            return None
+            return value
         business_model=context.business_model
         
         if not business_model.model_names:
-            return None
-        
-        value:Dict[str,Dict[str,Any]]={}
-        
+            return value
         for business_model_name in business_model.model_names:
             business_model_item=business_model.models[business_model_name]
             item_value,ref_data=self._extract_field_business_model(context,business_model_item)
@@ -1815,6 +1949,27 @@ class BaseBusinessModelField(Field):
                 "ref_data":ref_data
             }
         return value
+    
+    def parse(self, context, **kwargs):
+        if kwargs.get("pd"):
+            kwargs["pd"].update(1)
+            kwargs["pd"].desc = f"正在抽取【{self.name}】"
+        
+        if self.value:
+            return self.value
+            
+        try:
+            self.value = self._extract_field_value(context=context)
+        except Exception as e:
+            self.value = self.default_value
+            print(f"抽取字段【{self.name}】失败: {e}")
+            return self.default_value
+        
+        self.value = self._post_process()
+        
+        self.candidates=self._general_candidates(context)
+        
+        return self.value
         
  
 
@@ -1852,7 +2007,7 @@ class BuildingAreaForBusinessModelField(BaseBusinessModelField):
     # =================== 屋面类平面图匹配 ===================
     |
     (?P<roof>
-        (屋顶|构架|屋面|天面)(层)?平面图  # 屋面类关键词
+        (屋顶|构架|屋面|天面|屋顶设备)(层)?平面图  # 屋面类关键词
     )
     '''
     
@@ -1918,8 +2073,18 @@ class BuildingAreaForBusinessModelField(BaseBusinessModelField):
             for idx,item in enumerate(row):
                 if item.text == "~":
                     if idx!=0 and idx<len(row)-1:
+                        next_point=idx+2
                         row[idx-1].text=row[idx-1].text+"~"+row[idx+1].text
                         delete_items.append(row[idx+1])
+                        while next_point<len(row):
+                            b_item=row[next_point]
+                            if b_item.text=="~":
+                                if next_point!=0 and next_point<len(row)-1:
+                                    row[idx-1].text=row[idx-1].text+"~"+row[next_point+1].text
+                                    delete_items.append(row[next_point+1])
+                                    next_point+=2
+                            else:
+                                break
                         break;
                     
         for item in delete_items:
@@ -1980,6 +2145,56 @@ class BuildingAreaForBusinessModelField(BaseBusinessModelField):
         # 保留两位小数
         total_value=round(total_value,2)
         return total_value
+    
+    def fill_missing_floor_area(self,building_model_name:str,value:Dict):
+        """
+        非地下室：
+        ● 遍历整个业态建筑抽取的楼层情况，如果第一次出现非连续的地方则使用上次的面积进行补全。
+        ● 补全的面积，标志is_complete:true
+        地下室：
+        ● 遍历整个业态建筑抽取的楼层情况，从-1数开始计数，如果中间缺失，则使用连续的内容进行补全。
+        ● 补全的面积，标志is_complete:true
+        """
+        if not value or len(value)<=0:
+            return []
+        
+        is_underground = "地下" in building_model_name
+        # 获取所有楼层面积
+        floor_number_list=[]
+        new_floor_number_list=[]
+        if not is_underground:
+            # 先获取所有楼层面积
+            # 正则匹配前缀带有数字
+            pattern=re.compile(r'(\d+).*')
+            floor_number_list=[]
+            new_floor_number_list=[]
+            for key,v in value.items():
+                match=pattern.search(key)
+                if match:
+                    floor_number_list.append((int(match.group(1)),key))
+            floor_number_list.sort(key=lambda x:x[0])
+            if len(floor_number_list)<=0:
+                return []
+        else:
+            pattern=re.compile(r'(-\d+).*')
+            for key,v in value.items():
+                match=pattern.search(key)
+                if match:
+                    floor_number_list.append((int(match.group(1)),key))
+            floor_number_list.sort(key=lambda x:x[0])
+            if len(floor_number_list)<=0:
+                return []
+        for index in range(len(floor_number_list)-1):
+            floor_num,key = floor_number_list[index]
+            next_floor_num,next_key = floor_number_list[index+1]
+            if floor_num+1 != next_floor_num:
+                current_complete_floor_num = floor_num+1
+                while current_complete_floor_num < next_floor_num:
+                    new_floor_number_list.append((current_complete_floor_num,value[key]))
+                    current_complete_floor_num += 1
+        for floor_num,area in new_floor_number_list:
+            value[f"{floor_num}层平面图"]=area
+        return [f"{floor_num}层平面图" for floor_num,_ in new_floor_number_list]
 
     def _pattern_filter(self,text)->List[Tuple]:
         if not text:
@@ -2037,7 +2252,7 @@ class BuildingAreaForBusinessModelField(BaseBusinessModelField):
                     text
                 )
                 result.append(item)
-        return result   
+        return result
     
     def is_area_text(self,text:str)->bool:
         if not text:
@@ -2140,8 +2355,41 @@ class BuildingAreaForBusinessModelField(BaseBusinessModelField):
         return result,is_special_underground
                     
                     
-                    
-                    
+    def _record_floor_area(self,context:DwgFileContext,area_content_map:dict)->bool:
+        # text_content=context.text_content_list
+        # 预处理text_content.text_list
+        pre_processed_text_list=self._pre_process_text_list(context.text_list)
+        text_contents,is_special_underground=self._area_filter(pre_processed_text_list,context=context)
+        is_record=False
+        for content in text_contents:
+            if is_special_underground:
+                pattern = r"地(上|下)([一二三四五六七八九十]+)层.*?[:：].*?平方米"
+                matches = re.finditer(pattern, content)
+                for match in matches:
+                    position = match.group(1)  # "上" 或 "下"
+                    floor = match.group(2)     # 中文数字（如 "三"、"二"）
+                    level=f"{'-'if position=='下' else '' }{self.chinese_to_int(floor)}层平面图"
+                    area_content_map[level]=area_content_map.get(level,[])
+                    area_content_map[level].append(content)
+                    is_record=True
+            else:  
+                restult=self._pattern_filter(content)
+                for item in restult:
+                    level,_=item
+                    if level is not None:
+                        is_record=True
+                        area_content=area_content_map.get(level,[])
+                        if area_content and len(area_content)>0 and "楼梯及开闭所屋顶平面图" in area_content[0]:
+                            continue
+                        area_content.append(content)
+                        area_content_map[level]=area_content
+            
+        return is_record
+
+    def build_children_context(self,mapid,fileid):
+        pipeline=DwgTextParseByMapIdAndFileIdPipeLine(mapid=mapid,fileid=fileid,uploadname=fileid)
+        return pipeline.invoke()
+
     def _extract_field_business_model(self, project_context, business_model_item:BusinessModelItem):
         building_contexts=business_model_item.building
         if not building_contexts:
@@ -2151,28 +2399,25 @@ class BuildingAreaForBusinessModelField(BaseBusinessModelField):
         for context in building_contexts:
             if not isinstance(context,DwgFileContext):
                 continue
-            # text_content=context.text_content_list
-            # 预处理text_content.text_list
-            pre_processed_text_list=self._pre_process_text_list(context.text_list)
-            text_contents,is_special_underground=self._area_filter(pre_processed_text_list,context=context)
-            for content in text_contents:
-                if is_special_underground:
-                    pattern = r"地(上|下)([一二三四五六七八九十]+)层.*?[:：].*?平方米"
-                    matches = re.finditer(pattern, content)
-                    for match in matches:
-                        position = match.group(1)  # "上" 或 "下"
-                        floor = match.group(2)     # 中文数字（如 "三"、"二"）
-                        level=f"{'-'if position=='下' else '' }{self.chinese_to_int(floor)}层平面图"
-                        area_content_map[level]=area_content_map.get(level,[])
-                        area_content_map[level].append(content)
-                else:  
-                    restult=self._pattern_filter(content)
-                    for item in restult:
-                        level,_=item
-                        if level is not None:
-                            area_content=area_content_map.get(level,[])
-                            area_content.append(content)
-                            area_content_map[level]=area_content
+            is_record=self._record_floor_area(context,area_content_map)
+            if is_record:
+                continue
+            # 获取当前context对应的布局数
+            mapid=context.mapid
+            fileid=context.fileid
+            uploadname=context.uploadname
+            exportLayoutService=ExportLayoutService()
+            layout_number=exportLayoutService.get_current_map_layout_number(mapid,fileid,uploadname)
+            if layout_number>0:
+                for layoutIndex in range(1,layout_number+1):
+                    children_layout=exportLayoutService.get_children_layout(mapid,fileid,uploadname,layoutIndex)
+                    children_mapid=children_layout["mapid"]
+                    children_fileid=children_layout["fileid"]
+                    if children_mapid and children_fileid:
+                        children_context=self.build_children_context(children_mapid,children_fileid)
+                        is_record=self._record_floor_area(children_context,area_content_map)
+                        if is_record:
+                            break
         value={}
         ref_contexts=[]
         for field_name in area_content_map:
@@ -2183,6 +2428,8 @@ class BuildingAreaForBusinessModelField(BaseBusinessModelField):
                     ref_contexts=ref_contexts,
                     model_name=self.agent_model_name
                 ).invoke()
+        # 补全缺失的楼层面积
+        missing_floor=self.fill_missing_floor_area(business_model_item.building_model_name,value)
         total_value=self.caculate_total_value(business_model_item.building_model_name,value)
         if value is None or len(value)<=0:
             # 直接在图纸中查找
@@ -2193,6 +2440,7 @@ class BuildingAreaForBusinessModelField(BaseBusinessModelField):
                 print(f"转换数值时出错: {str(e)}")
         
         value["total"]=total_value
+        value["missing_floor"]=missing_floor
         ref_data=ReferenceData()
         if area_content_map and len(area_content_map)>0:
             ref_data.texts=[ContentItem(content="\n".join(contents))for contents in area_content_map.values()]
@@ -2208,15 +2456,16 @@ class BuildingAreaForBusinessModelField(BaseBusinessModelField):
             return 0
 
     def _extract_field_value(self, context:ProjectContext)->Dict[str,Any]:
+        value:Dict[str,Dict[str,Any]]={}
         # 获取当前字段对应的业态信息
         if not context.business_model:
-            return None
+            return value
         business_model=context.business_model
         
         if not business_model.model_names:
-            return None
+            return value
         
-        value:Dict[str,Dict[str,Any]]={}
+        
         
         for business_model_name in business_model.model_names:
             business_model_item=business_model.models[business_model_name]
@@ -2295,7 +2544,7 @@ class NumberOfFloorsBusinessModelField(BaseBusinessModelField):
         chinese_digits = {"一", "二", "三", "四", "五", "六", "七", "八", "九", "首"}
 
         for key, value in floors_info.items():
-            if value is None or value <= 0:
+            if isinstance(value,(int,float)) and (value is None or value <= 0):
                 continue
 
             if is_underground:
@@ -2305,7 +2554,6 @@ class NumberOfFloorsBusinessModelField(BaseBusinessModelField):
                 first_char = key[0]
                 if (first_char in chinese_digits or first_char.isdigit()) and "夹层" not in key:
                     total_floors += 1
-
         return total_floors
 
     def _extract_field_business_model(self, project_context, business_model_item: BusinessModelItem):
@@ -2451,6 +2699,21 @@ class ServiceLifeBusinessModelField(BaseStructureExtractBusinessModelField):
         self.paragraph_keys=paragraph_keys
         super().__init__(**kwargs)
     
+    def _post_process(self):
+        if not self.value:
+            return {}
+        return self.value
+    
+    def trans_value(self,value):
+        if not value:
+            return self.default_value
+        if isinstance(value,str):
+            value=''.join(re.findall(r'\d+', value))
+            if not value.strip():
+                return self.default_value
+        value=int(value)
+        return value
+    
     def keys_in_content(self,content:str,keys:List[str]):
         """
         检查keys是否在content中
@@ -2460,7 +2723,6 @@ class ServiceLifeBusinessModelField(BaseStructureExtractBusinessModelField):
                 return True
         return False
     def _extract_field_business_model(self, project_context:ProjectContext, business_model_item: BusinessModelItem):
-
         # 先走段落匹配:招标文件
         match_paragraph=[]
         for scope in self.context_scope:
@@ -2529,7 +2791,7 @@ class ServiceLifeBusinessModelField(BaseStructureExtractBusinessModelField):
             model_name=self.agent_model_name
         )
         value=pipeline.invoke()
-        return value
+        return self.trans_value(value)
 
 # =============================================================================
 # 结构类型业态字段
@@ -2541,7 +2803,12 @@ class StructureTypeBusinessModelField(ServiceLifeBusinessModelField):
         if not text:
             return None
         structure_types={
-            "框架结构","剪力墙结构","框架剪力墙结构","钢结构","筒体结构","混合结构"
+            "框架结构",
+            "剪力墙结构",
+            "框架剪力墙结构",
+            "钢结构",
+            "筒体结构",
+            "混合结构"
         }
         result=[]
         for structure_type in structure_types:
@@ -2610,6 +2877,15 @@ class StructureTypeBusinessModelField(ServiceLifeBusinessModelField):
 
 class BuildingFortificationIntensityBusinessModelField(ServiceLifeBusinessModelField):
     """抗震设防烈度字段（和抗震等级一样）"""
+    def trans_value(self,value):
+        if not value:
+            return self.default_value
+        if isinstance(value,str):
+            value=''.join(re.findall(r'\d+', value))
+            if not value.strip():
+                return self.default_value
+        value=int(value)
+        return value
     def _extract_value(self, business_model_item: BusinessModelItem, relevant_text_list: List[str]):
         if not relevant_text_list:
             return None
@@ -2622,7 +2898,7 @@ class BuildingFortificationIntensityBusinessModelField(ServiceLifeBusinessModelF
         value=pipeline.invoke()
         if not value:
             value=self.default_value
-        return value
+        return self.trans_value(value)
     
 class EarthquakeLevelBusinessModelField(ServiceLifeBusinessModelField):
     """业态中的抗震等级字段"""
@@ -2690,7 +2966,15 @@ class LiftValueField(BaseValueField):
             self.value=self.value.split("\n")[0]
             self.value=self.value.split(":")[-1]
             self.value=self.value.split("：")[-1]
-        return super()._post_process()
+        
+        if not self.value:
+            return self.default_value
+        if isinstance(self.value,str):
+            self.value=''.join(re.findall(r'\d+', self.value))
+            if not self.value.strip():
+                return self.default_value
+        self.value=int(self.value)
+        return self.value
     
     
 # =============================================================================
@@ -2764,16 +3048,21 @@ class HeightBusinessModelField(BaseBusinessModelField):
 # =============================================================================
 
 class StandardHeightBusinessModelField(BaseBusinessModelField):
-    """标准层高字段"""
+    """
+    标准层高字段，一般取决于一层楼的高度或者楼层的重数
+    """
+    
+    def _post_process(self):
+        if not self.value:
+            return {}
+        return self.value
     
     def most_common_element(self,lst):
         if not lst:
             return None
         return Counter(lst).most_common(1)[0][0]
     
-    """
-    标准层高字段，一般取决于一层楼的高度
-    """      
+    
     def _extract_field_business_model(self, project_context, business_model_item:BusinessModelItem):
         if not business_model_item.facade:
             return -1,self.ref_data
@@ -2809,6 +3098,67 @@ class StandardHeightBusinessModelField(BaseBusinessModelField):
 
 class GreeningAreaField(SingleAreaValueField):
     """绿化面积字段"""
+    def _post_process(self):
+        if not self.value:
+            return self.default_value
+        
+        if isinstance(self.value,str):
+            match = re.search(r'-?\d+\.?\d*', self.value)
+            if match:
+                self.value=match.group()
+            else:
+                self.value=self.default_value
+        self.value=float(self.value)
+        return self.value
+    def _extract_field_value(self,context:ProjectContext):
+        value=None
+        field_name=self.name
+        keys=[field_name]+self.alias
+        # 先走段落匹配
+        matched_paragraphs=[]
+        for scope in self.context_scope:
+            contexts:List[BaseFileContext]=context.get_contents_by_scope(scope)
+            for file_context in contexts:
+                if file_context.paragraphs and len(file_context.paragraphs)>0:
+                    for paragraph in file_context.paragraphs:
+                        for paragraph_key in self.paragraph_keys:
+                            if paragraph_key in paragraph['title']:
+                                matched_paragraphs.append(paragraph['content'])
+                                break
+        matched_str_list=matched_paragraphs
+        for scope in self.context_scope:
+            contexts:List[BaseFileContext]=context.get_contents_by_scope(scope)
+            if contexts is None or len(contexts)<=0:
+                continue
+            contents=[]
+            for file_context in contexts:
+                text_content_list=file_context.text_content_list
+                table_content_list=[]
+                if isinstance(file_context,DwgFileContext):
+                    table_content_list=file_context.table_content_list
+                contents.extend(table_content_list)
+                contents.extend(text_content_list)
+                if isinstance(file_context,DwgFileContext):
+                    if file_context.text_list:
+                        ocr_images,ocr_contents=self.ocr_check(file_context,p_width=self.p_width,p_height=self.p_height)
+                        contents.extend(ocr_contents)
+            for content in contents:
+                for key in keys:
+                    str_list=self.extract_surrounding_text(content,key,50,50)
+                    matched_str_list.extend(str_list)
+        matched_str_list,ie_results=self.ie_filter(matched_str_list)
+        content="\n".join(matched_str_list)
+        if not content.strip():
+            value=self.default_value
+        else:
+            pipline=ExtractionGreeningAreaFieldPipeLine(
+                field_name=field_name,
+                content=content,
+                alias=self.alias,
+                model_name=self.agent_model_name
+            )
+            value=pipline.invoke()
+        return value
     def general_candidates(self, context: ProjectContext):
         if not self.ref_data.texts or len(self.ref_data.texts)<=0:
             return []
@@ -2848,6 +3198,40 @@ class GreeningAreaField(SingleAreaValueField):
 
 class StartDateField(BaseValueField):
     """开工日期字段"""
+    def _format_date(self,date_str):
+        if "-" in date_str:
+            format="%Y-%m-%d"
+        elif "/" in date_str:
+            format="%Y/%m/%d"
+        elif "年" in date_str:
+            format="%Y年%m月%d日"
+        else:
+            return None
+        return format
+    def _post_process(self):
+        if not self.value:
+            self.value=self.default_value
+            return self.value
+        if isinstance(self.value,str):
+            format=self._format_date(self.value)
+            if format:
+                from datetime import datetime
+                try:
+                    self.value=datetime.strptime(self.value, format)
+                except:
+                    self.value=self.default_value
+                    return self.value
+            else:
+                self.value=self.default_value
+                return self.value
+        else:
+            self.value=self.default_value
+            return self.value
+        # 将日期转换为日期格式
+        if isinstance(self.value,datetime):
+            self.value=self.value.strftime("%Y年%m月%d日")
+        return self.value
+    
     def general_candidates(self, context: ProjectContext):
         if not self.ref_data.texts or len(self.ref_data.texts)<=0:
             return []
@@ -2886,6 +3270,41 @@ class StartDateField(BaseValueField):
 
 class CompletionDateField(BaseValueField):
     """竣工日期字段"""
+    def _format_date(self,date_str):
+        if "-" in date_str:
+            format="%Y-%m-%d"
+        elif "/" in date_str:
+            format="%Y/%m/%d"
+        elif "年" in date_str:
+            format="%Y年%m月%d日"
+        else:
+            return None
+        return format
+    def _post_process(self):
+        if not self.value:
+            self.value=self.default_value
+            return self.value
+        if isinstance(self.value,str):
+            format=self._format_date(self.value)
+            if format:
+                from datetime import datetime
+                try:
+                    self.value=datetime.strptime(self.value, format)
+                except:
+                    self.value=self.default_value
+                    return self.value
+            else:
+                self.value=self.default_value
+                return self.value
+        else:
+            self.value=self.default_value
+            return self.value
+        
+        # 将日期转换为日期格式
+        if isinstance(self.value,datetime):
+            self.value=self.value.strftime("%Y年%m月%d日")
+        return self.value
+    
     def general_candidates(self, context: ProjectContext):
         if not self.ref_data.texts or len(self.ref_data.texts)<=0:
             return []
@@ -2977,7 +3396,6 @@ class DesignUnitField(BaseValueField):
 <content>
 {{content}}
 </content>
-
 请从参考内容中识别出1-3个可能的设计单位候选项，要求：
 1. 候选项应该是完整的设计公司或院所名称
 2. 优先选择包含"设计单位"、"设计院"、"设计有限公司"、"设计研究院"等关键词的机构名称
@@ -3001,6 +3419,75 @@ class DesignUnitField(BaseValueField):
 
 class CivilDefenseBuildingAreaField(SingleAreaValueField):
     """人防建筑面积字段"""
+    
+    def _extract_field_value(self,context:ProjectContext):
+        value=None
+        field_name=self.name
+        keys=[field_name]+self.alias
+        # 先走段落匹配
+        matched_paragraphs=[]
+        for scope in self.context_scope:
+            contexts:List[BaseFileContext]=context.get_contents_by_scope(scope)
+            for file_context in contexts:
+                if file_context.paragraphs and len(file_context.paragraphs)>0:
+                    for paragraph in file_context.paragraphs:
+                        for paragraph_key in self.paragraph_keys:
+                            if paragraph_key in paragraph['title']:
+                                matched_paragraphs.append(paragraph['content'])
+                                break
+        # 再走表格匹配
+        matched_table_contents=[]
+        for scope in self.context_scope:
+            contexts:List[BaseFileContext]=context.get_contents_by_scope(scope)
+            for file_context in contexts:
+                if isinstance(file_context,DwgFileContext):
+                    if file_context.table_content_list and len(file_context.table_content_list)>0:
+                        for table_content in file_context.table_content_list:
+                            if self.keys_in_content(table_content,keys):
+                                matched_table_contents.append(table_content)
+        matched_str_list=matched_paragraphs+matched_table_contents
+        for scope in self.context_scope:
+            contexts:List[BaseFileContext]=context.get_contents_by_scope(scope)
+            if contexts is None or len(contexts)<=0:
+                continue
+            contents=[]
+            for file_context in contexts:
+                text_content_list=file_context.text_content_list
+                table_content_list=[]
+                if isinstance(file_context,DwgFileContext):
+                    table_content_list=file_context.table_content_list
+                contents.extend(text_content_list)
+                if isinstance(file_context,DwgFileContext):
+                    if file_context.text_list:
+                        ocr_images,ocr_contents=self.ocr_check(file_context,p_width=self.p_width,p_height=self.p_height)
+                        contents.extend(ocr_contents)
+            for content in contents:
+                for key in keys:
+                    str_list=self.extract_surrounding_text(content,key,50,50)
+                    matched_str_list.extend(str_list)
+        matched_str_list,ie_results=self.ie_filter(matched_str_list)
+        content="\n".join(matched_str_list)
+        if not content.strip():
+            value=self.default_value
+        else:
+            pipline=ExtractionCivilDefenseBuildingAreaFieldPipeLine(
+                field_name=field_name,
+                content=content,
+                alias=self.alias,
+                model_name=self.agent_model_name
+            )
+            value=pipline.invoke()
+        return value
+    
+    def _post_process(self):
+        # 浮点数处理
+        if not self.value:
+            return self.default_value
+        if isinstance(self.value,str):
+            self.value=''.join(re.findall(r'\d+\.?\d*', self.value))
+        self.value=float(self.value)
+        return self.value
+    
     def general_candidates(self, context: ProjectContext):
         if not self.ref_data.texts or len(self.ref_data.texts)<=0:
             return []

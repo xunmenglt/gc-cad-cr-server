@@ -96,6 +96,21 @@ class CreateFolderRequest(BaseModel):
         }
 
 
+# 更新文件名请求模型
+class UpdateFileNameRequest(BaseModel):
+    """更新文件名请求模型"""
+    file_id: str = Field(..., description="文件ID", min_length=1)
+    file_name: str = Field(..., description="新的文件名称", min_length=1, max_length=255)
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "file_id": "file_20231201_001",
+                "file_name": "新文件名"
+            }
+        }
+
+
 # 文件上传响应模型
 class FileUploadResponse(BaseResponse):
     """文件上传响应模型"""
@@ -208,6 +223,29 @@ def delete_file(file_id: str = Path(..., description="要删除的文件或文�
         return BaseResponse(data=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"删除文件时发生错误: {str(e)}")
+    
+@router.post(
+    "/update_file_name",
+    response_model=BaseResponse,
+    summary="更新文件名称",
+    description="更新文件名称",
+    tags=["文件管理"]
+)
+def update_file_name(request: UpdateFileNameRequest):
+    """更新文件名称"""
+    try:
+        # 调用数据库仓库函数更新文件名
+        result = repo.update_file_name(file_id=request.file_id, file_name=request.file_name)
+        
+        if isinstance(result, dict) and not result.get("success", True):
+            raise HTTPException(status_code=400, detail=result.get("message", "更新文件名失败"))
+        
+        return BaseResponse(data=result)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"更新文件名时发生错误: {str(e)}")
     
 
     

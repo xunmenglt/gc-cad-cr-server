@@ -17,7 +17,9 @@ from common.prompts import (field_requiring_classification_prompt_template,
                             parking_space_count_extraction_prompt,
                             land_area_prompt_template,
                             building_height_with_refcontent_prompt,
-                            building_standard_height_with_refcontent_prompt)
+                            building_standard_height_with_refcontent_prompt,
+                            civil_defense_building_area_extraction_prompt,
+                            greening_area_extraction_prompt)
 from extraction.context import DwgFileContext,FacadeContext
 from utils.file import image_chat
 from vjmap.services import (
@@ -264,8 +266,8 @@ class BaseGeneralBusinessExtractionPipeLine(BaseLanguageModelTaskPipeLine):
         try:
             value=self.parse_ai_res_for_field_directed(ai_res=ai_res)
         except Exception as e:
-            print(f"【{self.field_name}】模型解析异常")
-            value="模型输出结果解析异常"
+            print(f"【{self.field_name}】模型解析异常,{e}")
+            value=None
         return value
     
 class StructureTypeExtractionPipeLine(BaseGeneralBusinessExtractionPipeLine):
@@ -451,3 +453,42 @@ class CandidatesGenerationPipeLine(BaseLanguageModelTaskPipeLine):
         ai_res=self.single_complete(query=query,temperature=self.temperature,max_tokens=self.max_tokens)
         candidates=self.parse_ai_res(ai_res=ai_res)
         return candidates
+    
+class ExtractionGreeningAreaFieldPipeLine(ExtractionFieldValueTaskBaseLanguageModelPipeLine):
+    """
+    抽取绿化面积
+    """
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
+    
+    def create_query(self):
+        template=Template(greening_area_extraction_prompt)
+        keys=[self.field_name]+self.alias
+        content=self.content.replace("2\r\n","\r\n")
+        query=template.render(
+            {
+                "content":content,
+                "keys":keys
+            }
+        )
+        return query
+
+class ExtractionCivilDefenseBuildingAreaFieldPipeLine(ExtractionFieldValueTaskBaseLanguageModelPipeLine):
+    """
+    抽取人防建筑面积
+    """
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
+        
+    
+    def create_query(self):
+        template=Template(civil_defense_building_area_extraction_prompt)
+        keys=[self.field_name]+self.alias
+        content=self.content.replace("2\r\n","\r\n")
+        query=template.render(
+            {
+                "content":content[:10000],
+                "keys":keys
+            }
+        )
+        return query

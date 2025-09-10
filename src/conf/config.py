@@ -18,10 +18,10 @@ OPENAI_API_BASE="https://api.siliconflow.cn/v1"
 VL_MODEL_NAME="Qwen/Qwen2.5-VL-72B-Instruct"
 
 # 代理模型（用于生成真实值）
-AGENT_MODEL_NAME="deepseek-ai/DeepSeek-V3"
+AGENT_MODEL_NAME="Qwen/Qwen2.5-7B-Instruct"
 
 # 候选答案生成模型
-CANDIDATES_GENERATION_MODEL_NAME="deepseek-ai/DeepSeek-V3"
+CANDIDATES_GENERATION_MODEL_NAME="Qwen/Qwen2.5-7B-Instruct"
 
 # httpx 配置
 HTTPX_DEFAULT_TIMEOUT = 300.0

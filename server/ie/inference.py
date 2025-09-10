@@ -1,5 +1,4 @@
 import sys
-sys.path.insert(0,'/opt/data/private/liuteng/code/paper/emr_mpo/src')
 from ie.global_pointer import QwenForEffiGlobalPointer
 from transformers import AutoTokenizer
 import numpy as np

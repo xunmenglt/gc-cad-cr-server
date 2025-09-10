@@ -1,5 +1,8 @@
 import os
 import time
+import uuid
+import json
+
 from api.client import APIClient
 from vjmap.items import QueryItem
 
@@ -8,7 +11,7 @@ from vjmap.utils import (
     getServiceUrl
 )
 from dataclasses import dataclass, field,asdict
-from typing import List,Optional,Literal
+from typing import List,Optional,Literal,Dict
 from .items import (
     EnvelopBounds,
     TableItem,
@@ -88,9 +91,9 @@ class OpenMapRequestParams:
 
 
 class OpenmapService(Service):
-    def openmap(self,mapid:str,params:OpenMapRequestParams)->dict:
+    def aopenmap(self,mapid:str,params:OpenMapRequestParams)->dict:
         """
-        打开地图接口
+        异步打开地图接口
         :param mapid: 地图id
         :return: 接口响应
         """
@@ -106,6 +109,140 @@ class OpenmapService(Service):
             return response
         finally:
             pass
+    def open_map(self,mapid:str,params:OpenMapRequestParams)->dict:
+        """
+        打开地图接口
+        :param mapid: 地图id
+        :param params: 打开地图参数
+        :return: 接口响应
+        """
+        while True:
+            open_res=self.aopenmap(mapid=mapid,params=params)
+            open_status=open_res.get('status',None)
+            if open_status=='error':
+                print(open_res)
+            elif open_status!='finish':
+                print(f"当前地图【{mapid}】打开状态为【{open_status}】，等待2秒后重试")
+                time.sleep(2)
+                continue
+            else:
+                break
+        return open_res
+    def openmap(self,mapid:str,params:OpenMapRequestParams)->dict:
+        """
+        打开地图接口
+        :param mapid: 地图id
+        :param params: 打开地图参数
+        :return: 接口响应
+        """
+        while True:
+            open_res=self.aopenmap(mapid=mapid,params=params)
+            open_status=open_res.get('status',None)
+            if open_status=='error':
+                print(open_res)
+            elif open_status!='finish':
+                print(f"当前地图【{mapid}】打开状态为【{open_status}】，等待2秒后重试")
+                time.sleep(2)
+                continue
+            else:
+                break
+        return open_res
+
+@dataclass
+class ExportLayoutIndex:
+    isExportLayout: bool = True
+    layoutIndex: int = 1
+    
+    def to_dict(self):
+        return asdict(self)
+
+    
+
+@dataclass
+class ExportLayoutParams:
+    mapid: str = ""
+    version: str = "v1"
+    layoutIndex: ExportLayoutIndex = field(default_factory=ExportLayoutIndex)
+    geom: bool = False
+    
+    def __post_init__(self):
+        # 需要校验的字段列表
+        required_fields = ["mapid","layoutIndex"]
+        # 遍历字段列表，逐一校验是否为空
+        for field_name in required_fields:
+            value = getattr(self, field_name)  # 动态获取字段值
+            if not value:  # 判断值是否为 None 或空字符串
+                raise ValueError(f"{field_name} 是必需的，不能为空或 None")
+    
+    def to_dict(self):
+        json_data = asdict(self)
+        return json_data
+        
+
+class ExportLayoutService(Service):
+    def export(self,params:ExportLayoutParams)->dict:
+        """
+        导出布局接口
+        :param mapid: 地图id
+        :return: 接口响应
+        """
+        endpoint = f"/map/cmd/exportLayout/_null/v1" 
+        params=params.to_dict()
+        headers={
+            "token":getAccessToken()
+        }
+        try:
+            response = self.client.send_request(method="POST", endpoint=endpoint,headers=headers,data=params)
+            return response
+        finally:
+            pass
+    def get_current_map_layout_number(self,mapid:str,fileid:str,uploadname:str):
+        """
+        根据mapid、fileid、uploadname获取当前地图的布局数量
+        """
+        openmapService=OpenmapService()
+        open_res=openmapService.open_map(mapid=mapid,params=OpenMapRequestParams(fileid=fileid,uploadname=uploadname))
+        layouts=open_res.get("layouts",None)    
+        if not layouts:
+            layouts=[]
+        else:
+            layouts=layouts.split(",")
+        return len(layouts)
+    
+    def get_children_layout(self,parent_mapid:str,fileid:str,uploadname:str,layoutIndex:int)->Dict[Literal["mapid","fileid"],str]:
+        """
+        根据父mapid、fileid、uploadname、layoutIndex获取子mapid
+        """
+        layout_number=self.get_current_map_layout_number(mapid=parent_mapid,fileid=fileid,uploadname=uploadname)
+        if layoutIndex>layout_number:
+            raise ValueError(f"布局索引超出范围: {layoutIndex}")
+        exportLayoutIndex=ExportLayoutIndex(layoutIndex=layoutIndex)
+        exportLayoutParams=ExportLayoutParams(mapid=parent_mapid,layoutIndex=exportLayoutIndex)
+        print("布局解析参数:")
+        print(json.dumps(exportLayoutParams.to_dict(),indent=4))
+        res=self.export(params=exportLayoutParams)
+        status=res.get("status",False)
+        if not status:
+            return {
+                "mapid":None,
+                "fileid":None
+            }
+        file_id=res.get("fileid",None)
+        if not file_id:
+            return {
+                "mapid":None,
+                "fileid":None
+            }
+        children_map_id=uuid.uuid4().hex
+        res={
+            "mapid":children_map_id,
+            "fileid":file_id
+        }
+        print(f"布局解析结果：")
+        print(json.dumps(res,indent=4))
+        return res
+        
+        
         
 class MapMetadataService(Service):
     def getMetaData(self,mapid:str,version:str="v1"):

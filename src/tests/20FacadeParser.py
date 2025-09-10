@@ -1,6 +1,9 @@
 """
 标高提取器
 """
+import sys
+import os
+sys.path.append(os.getcwd())
 import tqdm
 from parser.base import Parser
 from typing import List
@@ -15,6 +18,8 @@ from vjmap.items import (
 )
 
 from extraction.context import FacadeContext
+
+from vjmap.services import UploadMAPService
 
 
 class FacadeParser(Parser):
@@ -74,6 +79,7 @@ class FacadeParser(Parser):
                     candidate_items.append((text_item,proportion_item))
                     proportion_items.remove(proportion_item)
                     break
+        import pdb;pdb.set_trace()
         return candidate_items
     
     def get_key_text_items_with_filter(self,keys:List[str],text_list_query_items:List[QueryItem]):
@@ -205,6 +211,7 @@ class FacadeParser(Parser):
             minx=pole_flag.bounds.minx-pole_flag_width*0.25
             maxx=pole_flag.bounds.maxx+pole_flag_width*0.25
             candidate_text_items=[]
+            import pdb;pdb.set_trace()
             for number_item in number_text_items:
                 if (
                     number_item.bounds.miny>=pole_flag.bounds.maxy and \
@@ -265,6 +272,7 @@ class FacadeParser(Parser):
         text_items=self.get_key_text_items_with_filter(self.keys,text_list_query_items)
         lines = self.splitter.getmap_lines()
         all_rects=self.splitter.find_all_rect_in_map(lines)
+        import pdb;pdb.set_trace()
         all_rects=[item['bounds'] for item in all_rects]
         submaps=self.get_submaps_by_text_items(text_items,all_rects)
         elevation_lines=self.splitter.query_ent_type_map_items[self.elevation_line_type]
@@ -279,5 +287,16 @@ class FacadeParser(Parser):
             self.facade_context_list.append(facade_context)
         return self.facade_context_list
         
-        
+
+if __name__ == "__main__":
+    file_path="/Users/liuteng/02研究生/个人项目/gc-cad-cr-server/src/data/file_system/宝安区工人文化宫/业态/工人文化宫/立面/A-2-301.dwg"
+    # 上传文件
+    uploadService=UploadMAPService()
+    res=uploadService.upload_file(file_path)
+    print(res)
+    mapid=res["mapid"]
+    fileid=res["fileid"]
+    uploadname=res["uploadname"]
+    facade_parser=FacadeParser(mapid=mapid,geom=True)
+    facade_parser.load()
         

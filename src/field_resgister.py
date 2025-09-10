@@ -1,3 +1,4 @@
+from sqlalchemy import null
 from extraction.fields import (
     Field,
     BaseValueField,
@@ -64,7 +65,7 @@ regist_field(
         field_id="project_name",
         context_scope=[ContextScope.TENDER],
         alias=["标段名称","工程名称"],
-        paragraph_keys=["投标须知前附表"],
+        paragraph_keys=["投标须知前附表","OLE"],
         is_use_ie=False,
         is_general_candidates=True,
         default_value="暂无项目名称"
@@ -79,7 +80,7 @@ regist_field(
         field_id="construction_nature",
         context_scope=[ContextScope.TENDER],
         classifications=["新建","改建","扩建"],
-        paragraph_keys=["工程概况"],
+        paragraph_keys=["工程概况","OLE"],
         is_general_candidates=True,
         default_value="新建"
     )
@@ -91,7 +92,7 @@ regist_field(
         name="项目地点",
         field_id="project_location",
         context_scope=[ContextScope.TENDER],
-        paragraph_keys=["投标须知前附表"],
+        paragraph_keys=["投标须知前附表","OLE"],
         alias=["工程地点","联系地址","地址："],
         is_general_candidates=True,
         default_value="暂无项目地点"
@@ -119,7 +120,7 @@ regist_field(
         context_scope=[ContextScope.TENDER],
         classifications=["居住建筑","学校","办公建筑","体育建筑","卫生建筑","文化建筑","商业建筑","旅馆酒店建筑","交通建筑","居民服务建筑","工业建筑","市政工程","轨道交通工程"],
         classification_suffix="建筑",
-        paragraph_keys=["工程概况"],
+        paragraph_keys=["工程概况","OLE"],
         classification_map={
             "学校":"教育建筑"
         },
@@ -136,10 +137,10 @@ regist_field(
         field_id="total_building_area",
         dependencies=["地上建筑面积","地下建筑面积"],
         context_scope=[ContextScope.TENDER,ContextScope.BUILDING_DESIGN],
-        paragraph_keys=["工程概况","技术经济指标"],
+        paragraph_keys=["工程概况","技术经济指标","OLE"],
         project_fields=FIELDS_POOL,
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -150,11 +151,11 @@ regist_field(
         field_id="above_ground_building_area",
         dependencies=["建筑面积"],
         context_scope=[ContextScope.TENDER,ContextScope.BUILDING_DESIGN],
-        paragraph_keys=["工程概况","技术经济指标"],
+        paragraph_keys=["工程概况","技术经济指标","OLE"],
         alias=["地上总建筑面积"],
         project_fields=FIELDS_POOL,
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -165,11 +166,11 @@ regist_field(
         field_id="underground_building_area",
         dependencies=["建筑面积"],
         context_scope=[ContextScope.TENDER,ContextScope.BUILDING_DESIGN],
-        paragraph_keys=["工程概况","技术经济指标"],
+        paragraph_keys=["工程概况","技术经济指标","OLE"],
         alias=["地下总建筑面积","地下室总面积"],
         project_fields=FIELDS_POOL,
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -181,9 +182,9 @@ regist_field(
         field_id="land_area",
         context_scope=[ContextScope.TENDER,ContextScope.BUILDING_DESIGN],
         alias=["工程建设用地面积","总用地面积","建设用地面积","用地面积"],
-        paragraph_keys=["工程概况"],
+        paragraph_keys=["工程概况","OLE"],
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -197,10 +198,10 @@ regist_field(
         field_id="plot_ratio",
         context_scope=[ContextScope.BUILDING_DESIGN],
         alias=["规定容积率"],
-        paragraph_keys=["技术经济指标"],
+        paragraph_keys=["技术经济指标","OLE"],
         is_use_ocr=False,
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -214,7 +215,7 @@ regist_field(
         context_scope=[ContextScope.TENDER],
         alias=["学位个数","学位"],
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -223,10 +224,10 @@ regist_field(
     TotalHouseholdsField(
         name="住宅总户数",
         field_id="total_households",
-        context_scope=[ContextScope.TENDER],
+        context_scope=[ContextScope.TENDER,ContextScope.BUILDING_DESIGN],
         alias=["户数"],
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -237,7 +238,7 @@ regist_field(
         field_id="bed_count",
         context_scope=[ContextScope.TENDER],
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -250,7 +251,7 @@ regist_field(
         alias=["总客房数"],
         paragraph_keys=["技术经济指标"],
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -279,7 +280,7 @@ regist_field(
         classifications=["估算","概算","招标","预算","结算","决算"],
         classification_suffix="阶段",
         is_general_candidates=True,
-        default_value="招标"
+        default_value="招标阶段"
     )
 )
 
@@ -302,12 +303,12 @@ regist_field(
         name="建筑物基底面积",
         field_id="building_base_area",
         context_scope=[ContextScope.BUILDING_DESIGN],
-        alias=["建筑物基地","建筑基底面积"],
-        paragraph_keys=["技术经济指标"],
+        alias=["建筑物基底","建筑基底面积"],
+        paragraph_keys=["技术经济指标","OLE"],
         is_use_ocr=True,
         p_width=6,
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -320,7 +321,7 @@ regist_field(
         dependencies=["占地面积","建筑物基底面积"],
         project_fields=FIELDS_POOL,
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -330,7 +331,7 @@ regist_field(
         name="绿化面积",
         field_id="greening_area",
         context_scope=[ContextScope.BUILDING_DESIGN],
-        paragraph_keys=["技术经济指标"],
+        paragraph_keys=["技术经济指标","OLE"],
         alias=["绿地面积"],
         is_general_candidates=True,
         default_value=0
@@ -347,7 +348,7 @@ regist_field(
         project_fields=FIELDS_POOL,
         is_use_ocr=True,
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -358,7 +359,7 @@ regist_field(
         field_id="elevator",
         context_scope=[ContextScope.CCD],
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -370,8 +371,8 @@ regist_field(
         context_scope=[ContextScope.TENDER,ContextScope.BUILDING_DESIGN,ContextScope.BASEMENT],
         alias=["充电桩车位","充电车位","充电桩"],
         return_type="number",
-        paragraph_keys=["工程概况","技术经济指标"],
-        default_value=0,
+        paragraph_keys=["工程概况","技术经济指标","OLE"],
+        default_value=-1,
         is_general_candidates=True
     )
 )
@@ -385,9 +386,9 @@ regist_field(
         field_id="total_parking_spaces",
         context_scope=[ContextScope.TENDER,ContextScope.BASEMENT,ContextScope.BUILDING_DESIGN],
         alias=["停车位","机动车停车位","停车数量"],
-        paragraph_keys=["工程概况","技术经济指标"],
+        paragraph_keys=["工程概况","技术经济指标","OLE"],
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -397,9 +398,9 @@ regist_field(
         name="开工日期",
         field_id="start_date",
         context_scope=[ContextScope.TENDER],
-        alias=["计划开工日期","计划开工时间"],
+        alias=["计划开工日期","计划开工时间","正式开工"],
         is_general_candidates=True,
-        default_value="暂无开工日期"
+        default_value=None
     )
 )
 
@@ -409,9 +410,9 @@ regist_field(
         name="竣工日期",
         field_id="completion_date",
         context_scope=[ContextScope.TENDER],
-        alias=["计划竣工日期","计划竣工时间","计划完工日期"],
+        alias=["计划竣工日期","计划竣工时间","计划完工日期","竣工验收"],
         is_general_candidates=True,
-        default_value="暂无竣工日期"
+        default_value=None
     )
 )
 
@@ -424,7 +425,7 @@ regist_field(
         field_id="construction_period",
         dependencies=["开工日期","竣工日期"],
         project_fields=FIELDS_POOL,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -440,7 +441,7 @@ regist_field(
             "桩基":"桩基础"
         },
         is_general_candidates=True,
-        default_value="暂无基础类型"
+        default_value="桩基础"
     )
 )
 
@@ -464,11 +465,12 @@ regist_field(
         name="设计单位",
         field_id="design_unit",
         context_scope=[ContextScope.BUILDING_DESIGN],
-        alias=["设计有限公司","设计股份有限公司","科技发展有限公司","设计研究总院","设计研究院"],
+        alias=["设计有限公司","设计股份有限公司","科技发展有限公司","设计研究总院","设计研究院","设计研究有限公司","ARCHITECTURAL ARTISTIC DESIGN"],
         is_general_candidates=True,
         default_value="暂无设计单位"
     )
 )
+
 
 regist_field(
     "人防建筑面积",
@@ -478,7 +480,7 @@ regist_field(
         context_scope=[ContextScope.DEFENSE,ContextScope.BUILDING_DESIGN],
         alias=["人防总建筑面积"],
         is_general_candidates=True,
-        default_value=0
+        default_value=-1
     )
 )
 
@@ -493,7 +495,7 @@ regist_field(
     )
 )
 
-# # # TODO 装配率
+# TODO 装配率
 
 
 
@@ -503,7 +505,7 @@ regist_field(
 
 
 
-# ####################### 业态字段 #######################
+####################### 业态字段 #######################
 regist_field(
     "建筑面积",
     BuildingAreaForBusinessModelField(
@@ -526,7 +528,8 @@ regist_field(
     "标准层高",
     StandardHeightBusinessModelField(
         name="标准层高",
-        field_id="standard_floor_height"
+        field_id="standard_floor_height",
+        default_value=-1
     )
 )
 
@@ -555,7 +558,7 @@ regist_field(
         context_scope=[ContextScope.TENDER,ContextScope.BUILDING_DESIGN],
         is_use_ocr=False,
         alias=["主要结构形式"],
-        paragraph_keys=["结构设计等级","结构类型、设计分类等级"],
+        paragraph_keys=["结构设计等级","结构类型、设计分类等级","OLE"],
         default_value="框架剪力墙结构"
     )
 )
@@ -567,7 +570,7 @@ regist_field(
         field_id="service_life",
         alias=["设计使用年限"],
         context_scope=[ContextScope.TENDER,ContextScope.BUILDING_DESIGN],
-        paragraph_keys=["工程概况","技术经济指标"],
+        paragraph_keys=["工程概况","技术经济指标","OLE"],
         default_value=50
     )
 )
@@ -580,7 +583,7 @@ regist_field(
         is_use_ocr=False,
         context_scope=[ContextScope.TENDER,ContextScope.BUILDING_DESIGN],
         alias=["抗震等级","结构安全等级","结构的安全等级","安全等级划分"],
-        paragraph_keys=["工程概况","结构设计等级","建筑分类等级","结构类型、设计分类等级"],
+        paragraph_keys=["工程概况","结构设计等级","建筑分类等级","结构类型、设计分类等级","OLE"],
         default_value="一级"
     )
 )
@@ -593,7 +596,7 @@ regist_field(
         is_use_ocr=True,
         context_scope=[ContextScope.TENDER,ContextScope.BUILDING_DESIGN],
         alias=["抗震设防烈度"],
-        paragraph_keys=["工程概况"],
+        paragraph_keys=["工程概况","OLE"],
         default_value=7
     )
 )

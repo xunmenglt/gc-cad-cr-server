@@ -30,9 +30,10 @@ class BaseFileContext:
 
     def __post_init__(self):
         """在实例化时自动解析文件名和后缀"""
-        self.file_name = os.path.basename(self.file_path)  # 获取文件名（带后缀）
-        self.file_extension = os.path.splitext(self.file_name)[1]  # 获取文件后缀（带点）
-        self.file_size=os.path.getsize(self.file_path)
+        if self.file_path:
+            self.file_name = os.path.basename(self.file_path)  # 获取文件名（带后缀）
+            self.file_extension = os.path.splitext(self.file_name)[1]  # 获取文件后缀（带点）
+            self.file_size=os.path.getsize(self.file_path)
 
 @dataclass
 class FacadeContext:

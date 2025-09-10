@@ -22,7 +22,8 @@ from GOT.model import *
 from GOT.model.plug.blip_process import BlipImageEvalProcessor
 from GOT.utils.conversation import SeparatorStyle, conv_templates
 from GOT.utils.utils import KeywordsStoppingCriteria, disable_torch_init
-from utils.response import BaseResponse
+from config import OCR_MODEL_PATH,OCR_SERVER_PORT,OCR_SERVER_HOST,OCR_MAX_CONCURRENT_REQUESTS,OCR_DEFAULT_BIND_HOST
+
 # 配置基础日志
 logging.basicConfig(
     level=logging.INFO,
@@ -250,12 +251,12 @@ async def process_ocr(
 
 if __name__ == "__main__":
     # 全局变量
-    model_path = "/opt/data/private/liuteng/model/stepfun-ai/GOT-OCR2_0"
-    server_port=8777
-    server_host="0.0.0.0"
+    model_path = OCR_MODEL_PATH
+    server_port=OCR_SERVER_PORT
+    server_host=OCR_SERVER_HOST
     
     # 从环境变量获取并发数设置，默认为4
-    max_concurrent = int(os.getenv("MAX_CONCURRENT_REQUESTS", "4"))
+    max_concurrent = int(os.getenv("MAX_CONCURRENT_REQUESTS", str(OCR_MAX_CONCURRENT_REQUESTS)))
     MAX_CONCURRENT_REQUESTS = max_concurrent
     request_semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
     

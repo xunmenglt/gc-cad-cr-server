@@ -13,7 +13,7 @@ from ie.inference import IEAPI
 from utils.data import format_predictions
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
-from utils.response import BaseResponse
+from config import IE_MODEL_PATH,IE_SERVER_PORT,IE_SERVER_HOST,IE_MAX_CONCURRENT_REQUESTS
 
 class IEItem(BaseModel):
     id: str
@@ -138,12 +138,12 @@ async def process_ie(
                 )
 if __name__ == "__main__":
     # 配置变量
-    model_path="/opt/data/private/liuteng/model/wjn1996/wjn1996-hugnlp-hugie-large-zh"
-    server_port=8999
-    server_host="0.0.0.0"
+    model_path=IE_MODEL_PATH
+    server_port=IE_SERVER_PORT
+    server_host=IE_SERVER_HOST
     
     # 从环境变量获取并发数设置，默认为10
-    max_concurrent = int(os.getenv("MAX_CONCURRENT_REQUESTS", "20"))
+    max_concurrent = int(os.getenv("MAX_CONCURRENT_REQUESTS", str(IE_MAX_CONCURRENT_REQUESTS)))
     MAX_CONCURRENT_REQUESTS = max_concurrent
     request_semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
     

@@ -277,3 +277,99 @@ def get_file_info(session, file_id: str)->Optional[SysFileModel]:
         return file
     return None
 
+@with_session
+def update_file_name(session, file_id: str, file_name: str):
+    """
+    更新文件名称
+    同时更新物理文件名和数据库记录
+    """
+    # 验证文件是否存在
+    file = session.query(SysFileModel).filter_by(file_id=file_id).first()
+    if not file:
+        return {"success": False, "message": "文件不存在"}
+    
+    # 验证新文件名是否为空
+    if not file_name or file_name.strip() == "":
+        return {"success": False, "message": "文件名不能为空"}
+    
+    # 验证新文件名长度
+    if len(file_name) > 255:
+        return {"success": False, "message": "文件名长度不能超过255个字符"}
+    
+    # 检查同级目录下是否已存在同名文件
+    existing_file = session.query(SysFileModel).filter(
+        SysFileModel.file_parent == file.file_parent,
+        SysFileModel.file_name == file_name,
+        SysFileModel.file_id != file_id
+    ).first()
+    
+    if existing_file:
+        return {"success": False, "message": "同级目录下已存在同名文件"}
+    
+    try:
+        old_file_name = file.file_name
+        old_file_path = None
+        new_file_path = None
+        
+        # 如果是文件或目录，都需要重命名物理文件/文件夹
+        if file.file_type in [FileType.FILE, FileType.DIRECTORY]:
+            # 构建旧文件/文件夹路径
+            if file.file_type == FileType.FILE:
+                old_file_path = _build_file_path_for_deletion(session, file)
+            else:  # FileType.DIRECTORY
+                old_file_path = _build_folder_path(session, file.file_name, file.file_parent)
+            
+            # 构建新文件/文件夹路径
+            if file.file_type == FileType.FILE and file.file_suffix:
+                new_file_name = f"{file_name}.{file.file_suffix}"
+            else:
+                new_file_name = file_name
+            
+            # 构建新文件/文件夹路径
+            parent_path = _build_folder_path(session, "", file.file_parent)
+            new_file_path = os.path.join(parent_path, new_file_name)
+            
+            # 重命名物理文件/文件夹
+            if os.path.exists(old_file_path):
+                os.rename(old_file_path, new_file_path)
+        
+        # 更新数据库记录
+        file.file_name = file_name
+        # 如果是文件且有后缀，更新文件名（不包含后缀）
+        if file.file_type == FileType.FILE and file.file_suffix:
+            # 文件名不包含后缀
+            pass
+        else:
+            # 如果是文件夹，文件名就是完整名称
+            pass
+        
+        session.commit()
+        
+        return {
+            "success": True,
+            "message": "文件名更新成功",
+            "data": {
+                'file_id': file.file_id,
+                'file_name': file.file_name,
+                'file_type': file.file_type.value if file.file_type else None,
+                'file_size': file.file_size,
+                'file_suffix': file.file_suffix,
+                'file_parent': file.file_parent,
+                'file_md5': file.file_md5,
+                'create_time': file.create_time.isoformat() if file.create_time else None,
+                'update_time': file.update_time.isoformat() if file.update_time else None
+            },
+            "old_file_name": old_file_name,
+            "new_file_name": file_name
+        }
+        
+    except Exception as e:
+        session.rollback()
+        # 如果重命名物理文件失败，尝试恢复
+        if old_file_path and new_file_path and os.path.exists(new_file_path):
+            try:
+                os.rename(new_file_path, old_file_path)
+            except:
+                pass
+        return {"success": False, "message": f"更新文件名失败: {str(e)}"}
+

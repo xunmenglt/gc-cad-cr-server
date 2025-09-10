@@ -6,7 +6,7 @@ import time
 
 from extraction.identifier import CADContentIdentifier
 from field_resgister import FIELDS_POOL
-from conf.config import DATA_TMP_DIR
+from conf.config import DATA_TMP_DIR,AGENT_MODEL_NAME
 
 def extract_fields(project_dir: str, agent_model_name: str, output_dir: str,**kwargs):
     """
@@ -42,9 +42,8 @@ def extract_fields(project_dir: str, agent_model_name: str, output_dir: str,**kw
 def main():
     parser = argparse.ArgumentParser(description="CAD 内容抽取抽取脚本")
     parser.add_argument("--project_dir", required=True, help="CAD 项目输入目录")
-    parser.add_argument("--agent_model_name", default="qwen3-8b", help="使用的模型名称")
+    parser.add_argument("--agent_model_name", default=AGENT_MODEL_NAME, help="使用的模型名称")
     parser.add_argument("--output_dir", default=None, help="输出保存目录（默认 DATA_TMP_DIR/general_data）")
-
     args = parser.parse_args()
     startTime=time.time()
     project_dir = args.project_dir.rstrip('/')
@@ -54,11 +53,12 @@ def main():
 
     identifier = CADContentIdentifier(
         project_dir=project_dir,
+        output_dir=output_dir,
         agent_model_name=agent_model_name,
     )
 
     print("开始抽取字段...")
-    result = identifier.extract_filds(FIELDS_POOL)
+    result = identifier.extract_filds(FIELDS_POOL,output_dir=output_dir)
     base_info = result["general"]
     endTime=time.time()
     caseTime=endTime-startTime
@@ -80,3 +80,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+"""
+python main.py --project_dir /Users/liuteng/02研究生/个人项目/gc-cad-cr-server/src/data/file_system/山海逸居二期保障房项目 --output_dir /Users/liuteng/02研究生/个人项目/gc-cad-cr-server/src/data/tmp/extract_results
+python main.py --project_dir /Users/liuteng/02研究生/个人项目/gc-cad-cr-server/src/data/file_system/宝安区工人文化宫 --output_dir /Users/liuteng/02研究生/个人项目/gc-cad-cr-server/src/data/tmp/extract_results
+"""
